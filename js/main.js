@@ -11,3 +11,7 @@ function sendXHR() {
   });
   xhr.send();
 }
+
+function renderCountries() {
+
+}

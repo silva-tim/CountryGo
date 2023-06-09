@@ -2,6 +2,18 @@ header {
   background-color: #8eb897;
 }
 
+h1 {
+  padding-left: 0.6rem;
+}
+
+main {
+  background-color: #f3f3f3;
+}
+
+img {
+  width: 100%;
+}
+
 .merriweather {
   font-family: Merriweather, sans-serif;
 }
@@ -9,14 +21,16 @@ header {
 #planetop {
   font-size: 0.9rem;
   filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.511));
+  padding-right: 0.6rem;
 }
 
 #search {
   width: 100%;
-  margin-top: 0.5rem;
+  margin: 0.5rem 0;
   border-radius: 0.2rem;
   padding: 0.3rem 0.2rem;
   padding-left: 1.5rem;
+  margin-right: 0.8rem;
   font-size: 0.8rem;
 }
 
@@ -30,4 +44,28 @@ header {
   left: 1.2rem;
   font-size: 0.8rem;
   color: #666;
+}
+
+hr {
+  margin: 0;
+}
+
+h2 {
+  margin: 0;
+  font-size: 0.7rem;
+  text-align: center;
+}
+
+h3 {
+  margin: 0;
+  font-size: 0.5rem;
+  text-align: center;
+}
+
+.country {
+  background-color: white;
+  border-radius: 0.5rem;
+  line-height: 34px;
+  box-shadow: 4px 8px 10px grey;
+  padding: 0.4rem;
 }
