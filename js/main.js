@@ -7,8 +7,6 @@ function sendXHR() {
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
     countries = xhr.response;
-    console.log(xhr.status);
-    console.log(xhr.response);
   });
   xhr.send();
 }
@@ -50,4 +48,10 @@ function renderCountry(country) {
 
 function formatPopulation(number) {
 
+}
+
+function renderAll() {
+  for (let i = 0; i < countries.length; i++) {
+    $countryDeck.append(renderCountry(countries[i]));
+  }
 }
