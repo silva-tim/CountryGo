@@ -60,6 +60,7 @@ h3 {
   margin: 0;
   font-size: 0.5rem;
   text-align: center;
+  font-weight: 100;
 }
 
 .country {
@@ -67,5 +68,6 @@ h3 {
   border-radius: 0.5rem;
   line-height: 1rem;
   box-shadow: 4px 8px 10px grey;
-  padding: 0.4rem;
+  padding-bottom: 0.4rem;
+  overflow: hidden;
 }
