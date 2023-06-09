@@ -38,10 +38,25 @@
 
 .country-wrapper {
   flex-basis: 50%;
-  padding: 0.6rem;
+  padding: 0.4rem;
 }
 
-@media screen and (min-width: 760px) {
+@media only screen and (min-width: 955px) {
+  .container {
+    max-width: 900px;
+  }
+
+  .country-wrapper {
+    flex-basis: calc(100% / 3);
+    padding: 0.6rem;
+  }
+
+  #search {
+    max-width: 650px;
+  }
+}
+
+@media only screen and (min-width: 1180px) {
   .country-wrapper {
     flex-basis: calc(100% / 5);
     padding: 0.6rem;

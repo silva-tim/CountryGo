@@ -65,7 +65,7 @@ h3 {
 .country {
   background-color: white;
   border-radius: 0.5rem;
-  line-height: 34px;
+  line-height: 01rem;
   box-shadow: 4px 8px 10px grey;
   padding: 0.4rem;
 }
