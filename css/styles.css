@@ -66,8 +66,7 @@ h3 {
   box-shadow: 4px 8px 10px grey;
   padding-bottom: 0.4rem;
   overflow: hidden;
-  max-height: 240px;
-  min-height: 240px;
+  height: 240px;
   border: 0.1px solid black;
 }
 

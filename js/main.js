@@ -2,7 +2,7 @@ let countries = null;
 const $countryDeck = document.querySelector('#country-deck');
 const $search = document.querySelector('#search');
 
-function sendXHR() {
+function getAllCountries() {
   const xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://restcountries.com/v3.1/all');
   xhr.responseType = 'json';
@@ -102,4 +102,4 @@ function unrenderAll() {
 
 $search.addEventListener('input', handleSearch);
 
-sendXHR();
+getAllCountries();
