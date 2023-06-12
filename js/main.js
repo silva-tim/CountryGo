@@ -55,23 +55,35 @@ function renderCountry(country) {
   $countryBack.classList.add('country');
 
   const $capitalB = document.createElement('h3');
-  $capitalB.innerHTML = '<span>Capitol(s): </span>' + country.capital;
+  $capitalB.innerHTML = '<span>Capitol: </span>' + country.capital[0];
 
   const $regionB = document.createElement('h3');
   $regionB.innerHTML = '<span>Region: </span>' + country.region;
 
   const $populationB = document.createElement('h3');
-  $populationB.innerHTML = '<span>Population: </span>' + country.population;
+  $populationB.innerHTML = '<span>Population: </span>' + country.population.toLocaleString();
 
   const $pinIcon = document.createElement('i');
   $pinIcon.classList.add('fa-solid', 'fa-ma-pin');
 
   const $subRegion = document.createElement('h3');
-  $subRegion.innerHTML = '<i class="fa-solid fa-map-pin"></i>' + ' ' + country.subregion;
+  $subRegion.innerHTML = '<i class="fa-solid fa-map-pin"></i> ' + country.subregion;
 
   const $money = document.createElement('h3');
-  $money.innerHTML = '<i class="fa-solid fa-money-bill"></i>' + ' ' + Object.keys(country.currencies);
+  $money.innerHTML = '<i class="fa-solid fa-money-bill"></i> ' + Object.keys(country.currencies);
+
+  const arrayLanguage = Object.values(country.languages);
   const $language = document.createElement('h3');
+  $language.innerHTML = '<i class="fa-solid fa-language"></i> ';
+  for (let i = 0; i < arrayLanguage.length && i < 4; i++) {
+    $language.innerHTML += Object.values(arrayLanguage)[i];
+    if (i !== 3 && i !== arrayLanguage.length - 1) {
+      $language.innerHTML += ', ';
+    }
+  }
+  if (arrayLanguage.length > 4) {
+    $language.innerHTML += ' + more';
+  }
 
   $countryBack.append($name);
   $countryBack.append($line);
@@ -80,6 +92,7 @@ function renderCountry(country) {
   $countryBack.append($populationB);
   $countryBack.append($subRegion);
   $countryBack.append($money);
+  $countryBack.append($language);
   $wrapper.append($countryBack);
   return $wrapper;
 }
