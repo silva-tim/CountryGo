@@ -18,9 +18,13 @@ function renderCountry(country) {
   const $country = document.createElement('div');
   $country.classList.add('country');
 
-  const $flag = document.createElement('img');
-  $flag.src = country.flags.png;
-  $flag.alt = country.flags.alt;
+  const $flag = document.createElement('div');
+  $flag.classList.add('flag');
+  $country.append($flag);
+
+  const $flagImg = document.createElement('img');
+  $flagImg.src = country.flags.png;
+  $flagImg.alt = country.flags.alt;
 
   const $name = document.createElement('h2');
   $name.textContent = country.name.common;
@@ -36,7 +40,7 @@ function renderCountry(country) {
   const $population = document.createElement('h3');
   $population.textContent = country.population;
 
-  $country.append($flag);
+  $flag.append($flagImg);
   $country.append($name);
   $country.append($line);
   $country.append($capital);

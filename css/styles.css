@@ -66,8 +66,18 @@ h3 {
 .country {
   background-color: white;
   border-radius: 0.5rem;
-  line-height: 1rem;
+  line-height: 0.8rem;
   box-shadow: 4px 8px 10px grey;
   padding-bottom: 0.4rem;
   overflow: hidden;
+  max-height: 230px;
+  min-height: 230px;
+}
+
+.flag {
+  height: 110px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
