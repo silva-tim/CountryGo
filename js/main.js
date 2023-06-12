@@ -18,50 +18,50 @@ function renderCountry(country) {
   const $wrapper = document.createElement('div');
   $wrapper.classList.add('country-wrapper');
 
-  const $country = document.createElement('div');
-  $country.classList.add('country');
+  // const $country = document.createElement('div');
+  // $country.classList.add('country');
 
-  const $flag = document.createElement('div');
-  $flag.classList.add('flag');
-  $country.append($flag);
+  // const $flag = document.createElement('div');
+  // $flag.classList.add('flag');
+  // $country.append($flag);
 
-  const $flagImg = document.createElement('img');
-  $flagImg.src = country.flags.png;
-  $flagImg.alt = country.flags.alt;
+  // const $flagImg = document.createElement('img');
+  // $flagImg.src = country.flags.png;
+  // $flagImg.alt = country.flags.alt;
 
   const $name = document.createElement('h2');
   $name.textContent = country.name.common;
 
   const $line = document.createElement('hr');
 
-  const $capital = document.createElement('h3');
-  $capital.textContent = country.capital;
+  // const $capital = document.createElement('h3');
+  // $capital.textContent = country.capital;
 
-  const $region = document.createElement('h3');
-  $region.textContent = country.region;
+  // const $region = document.createElement('h3');
+  // $region.textContent = country.region;
 
-  const $population = document.createElement('h3');
-  $population.textContent = formatPopulation(country.population);
+  // const $population = document.createElement('h3');
+  // $population.textContent = formatPopulation(country.population);
 
-  $flag.append($flagImg);
-  $country.append($name);
-  $country.append($line);
-  $country.append($capital);
-  $country.append($region);
-  $country.append($population);
-  $wrapper.append($country);
+  // $flag.append($flagImg);
+  // $country.append($name);
+  // $country.append($line);
+  // $country.append($capital);
+  // $country.append($region);
+  // $country.append($population);
+  // $wrapper.append($country);
 
   const $countryBack = document.createElement('div');
-  $countryBack.classList.add('country', 'hidden');
+  $countryBack.classList.add('country');
 
-  const $capitalB = document.createElement('h2');
-  $capitalB.textContent = 'Capital(s): ' + country.capital;
+  const $capitalB = document.createElement('h3');
+  $capitalB.innerHTML = '<span>Capitol(s): </span>' + country.capital;
 
-  const $regionB = document.createElement('h2');
-  $regionB.textContent = 'Region: ' + country.region;
+  const $regionB = document.createElement('h3');
+  $regionB.innerHTML = '<span>Region: </span>' + country.region;
 
   const $populationB = document.createElement('h3');
-  $populationB.textContent = 'Population: ' + country.population;
+  $populationB.innerHTML = '<span>Population: </span>' + country.population;
 
   const $pinIcon = document.createElement('i');
   $pinIcon.classList.add('fa-solid', 'fa-ma-pin');
@@ -70,9 +70,12 @@ function renderCountry(country) {
   const $money = document.createElement('h3');
   const $language = document.createElement('h3');
 
+  $countryBack.append($name);
+  $countryBack.append($line);
   $countryBack.append($capitalB);
   $countryBack.append($regionB);
   $countryBack.append($populationB);
+  $wrapper.append($countryBack);
   return $wrapper;
 }
 

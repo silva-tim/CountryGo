@@ -93,3 +93,8 @@ h3 {
   color: #6fa2dd;
   font-size: 0.5rem;
 }
+
+span {
+  font-size: 0.42rem;
+  font-weight: bold;
+}
