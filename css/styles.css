@@ -1,0 +1,80 @@
+header {
+  background-color: #8eb897;
+}
+
+main {
+  background-color: #f3f3f3;
+}
+
+img {
+  width: 100%;
+}
+
+.merriweather {
+  font-family: Merriweather, sans-serif;
+}
+
+#planetop {
+  font-size: 0.9rem;
+  filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.511));
+  padding-right: 0.6rem;
+}
+
+#search {
+  width: 100%;
+  margin: 0.5rem 0;
+  border-radius: 0.2rem;
+  padding: 0.3rem 0.2rem;
+  padding-left: 1.5rem;
+  margin-right: 0.8rem;
+  font-size: 0.8rem;
+}
+
+#search::placeholder {
+  color: #666;
+}
+
+#magnify {
+  position: relative;
+  top: 1rem;
+  left: 1.2rem;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+hr {
+  margin: 5px 0;
+}
+
+h2 {
+  margin: 0;
+  font-size: 0.6rem;
+  text-align: center;
+}
+
+h3 {
+  margin: 0;
+  font-size: 0.42rem;
+  text-align: center;
+  font-weight: 100;
+}
+
+.country {
+  background-color: white;
+  border-radius: 0.3rem;
+  line-height: 0.8rem;
+  box-shadow: 4px 8px 10px grey;
+  padding-bottom: 0.4rem;
+  overflow: hidden;
+  height: 240px;
+  border: 0.1px solid black;
+}
+
+.flag {
+  height: 110px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
