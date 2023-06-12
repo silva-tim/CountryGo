@@ -4,7 +4,7 @@ const $search = document.querySelector('#search');
 
 function getAllCountries() {
   const xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://restcountries.com/v3.1/all');
+  xhr.open('GET', 'https://restcountries.com/v3.1/independent?status=true');
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
     countries = xhr.response;
@@ -67,7 +67,10 @@ function renderCountry(country) {
   $pinIcon.classList.add('fa-solid', 'fa-ma-pin');
 
   const $subRegion = document.createElement('h3');
+  $subRegion.innerHTML = '<i class="fa-solid fa-map-pin"></i>' + ' ' + country.subregion;
+
   const $money = document.createElement('h3');
+  $money.innerHTML = '<i class="fa-solid fa-money-bill"></i>' + ' ' + Object.keys(country.currencies);
   const $language = document.createElement('h3');
 
   $countryBack.append($name);
@@ -75,6 +78,8 @@ function renderCountry(country) {
   $countryBack.append($capitalB);
   $countryBack.append($regionB);
   $countryBack.append($populationB);
+  $countryBack.append($subRegion);
+  $countryBack.append($money);
   $wrapper.append($countryBack);
   return $wrapper;
 }
