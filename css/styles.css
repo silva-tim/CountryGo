@@ -2,10 +2,6 @@ header {
   background-color: #8eb897;
 }
 
-h1 {
-  padding-left: 0.6rem;
-}
-
 main {
   background-color: #f3f3f3;
 }
@@ -47,31 +43,31 @@ img {
 }
 
 hr {
-  margin: 0;
+  margin: 5px 0;
 }
 
 h2 {
   margin: 0;
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   text-align: center;
 }
 
 h3 {
   margin: 0;
-  font-size: 0.5rem;
+  font-size: 0.42rem;
   text-align: center;
   font-weight: 100;
 }
 
 .country {
   background-color: white;
-  border-radius: 0.5rem;
+  border-radius: 0.3rem;
   line-height: 0.8rem;
   box-shadow: 4px 8px 10px grey;
   padding-bottom: 0.4rem;
   overflow: hidden;
-  max-height: 230px;
-  min-height: 230px;
+  max-height: 240px;
+  min-height: 240px;
   border: 0.1px solid black;
 }
 

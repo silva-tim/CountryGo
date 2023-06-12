@@ -8,6 +8,8 @@ function sendXHR() {
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
     countries = xhr.response;
+    sortAlphabetical(countries);
+    renderAll(countries);
   });
   xhr.send();
 }
@@ -99,3 +101,5 @@ function unrenderAll() {
 }
 
 $search.addEventListener('input', handleSearch);
+
+sendXHR();
