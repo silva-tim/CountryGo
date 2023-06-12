@@ -39,7 +39,7 @@ function renderCountry(country) {
   $region.textContent = country.region;
 
   const $population = document.createElement('h3');
-  $population.textContent = country.population;
+  $population.textContent = formatPopulation(country.population);
 
   $flag.append($flagImg);
   $country.append($name);
@@ -51,9 +51,16 @@ function renderCountry(country) {
   return $wrapper;
 }
 
-// TODO
 function formatPopulation(number) {
-
+  if (number > 1000000000) {
+    return (Math.round(number / 100000000) / 10) + ' Billion People';
+  } else if (number > 100000000) {
+    return (Math.round(number / 1000000)) + ' Million People';
+  } else if (number > 1000000) {
+    return (Math.round(number / 100000) / 10) + ' Million People';
+  } else {
+    return '< 1 Million People';
+  }
 }
 
 function renderAll(countryArray) {
