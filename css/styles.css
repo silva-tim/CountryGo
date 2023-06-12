@@ -65,8 +65,7 @@ h3 {
   line-height: 0.8rem;
   box-shadow: 4px 8px 10px grey;
   padding-bottom: 0.4rem;
-
-  /* overflow: hidden; */
+  overflow: hidden;
   height: 240px;
   width: 196px;
   border: 0.1px solid black;
