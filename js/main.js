@@ -54,8 +54,22 @@ function formatPopulation(number) {
 
 }
 
-function renderAll() {
-  for (let i = 0; i < countries.length; i++) {
-    $countryDeck.append(renderCountry(countries[i]));
+function renderAll(countryArray) {
+  for (let i = 0; i < countryArray.length; i++) {
+    $countryDeck.append(renderCountry(countryArray[i]));
   }
+}
+
+function sortAlphabetical(countryArray) {
+  const sortedCountries = [];
+
+  countryArray.sort(function (a, b) {
+    if (a.name.common > b.name.common) {
+      return 1;
+    } else if (a.name.common < b.name.common) {
+      return -1;
+    }
+    return 0;
+  });
+  return countryArray;
 }
