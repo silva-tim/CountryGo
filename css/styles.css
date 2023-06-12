@@ -78,3 +78,18 @@ h3 {
   justify-content: center;
   background-color: white;
 }
+
+.fa-map-pin {
+  color: #d46161;
+  font-size: 0.5rem;
+}
+
+.fa-money-bill {
+  color: #8eb897;
+  font-size: 0.5rem;
+}
+
+.fa-language {
+  color: #6fa2dd;
+  font-size: 0.5rem;
+}

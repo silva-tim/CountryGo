@@ -50,6 +50,29 @@ function renderCountry(country) {
   $country.append($region);
   $country.append($population);
   $wrapper.append($country);
+
+  const $countryBack = document.createElement('div');
+  $countryBack.classList.add('country', 'hidden');
+
+  const $capitalB = document.createElement('h2');
+  $capitalB.textContent = 'Capital(s): ' + country.capital;
+
+  const $regionB = document.createElement('h2');
+  $regionB.textContent = 'Region: ' + country.region;
+
+  const $populationB = document.createElement('h3');
+  $populationB.textContent = 'Population: ' + country.population;
+
+  const $pinIcon = document.createElement('i');
+  $pinIcon.classList.add('fa-solid', 'fa-ma-pin');
+
+  const $subRegion = document.createElement('h3');
+  const $money = document.createElement('h3');
+  const $language = document.createElement('h3');
+
+  $countryBack.append($capitalB);
+  $countryBack.append($regionB);
+  $countryBack.append($populationB);
   return $wrapper;
 }
 
