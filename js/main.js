@@ -1,5 +1,6 @@
 let countries = null;
 const $countryDeck = document.querySelector('#country-deck');
+const $search = document.querySelector('#search');
 
 function sendXHR() {
   const xhr = new XMLHttpRequest();
@@ -50,6 +51,7 @@ function renderCountry(country) {
   return $wrapper;
 }
 
+// TODO
 function formatPopulation(number) {
 
 }
@@ -61,8 +63,6 @@ function renderAll(countryArray) {
 }
 
 function sortAlphabetical(countryArray) {
-  const sortedCountries = [];
-
   countryArray.sort(function (a, b) {
     if (a.name.common > b.name.common) {
       return 1;
@@ -71,5 +71,24 @@ function sortAlphabetical(countryArray) {
     }
     return 0;
   });
-  return countryArray;
 }
+
+function handleSearch(event) {
+  unrenderAll();
+
+  for (let i = 0; i < countries.length; i++) {
+    if (countries[i].name.common.toLowerCase().includes(event.target.value.toLowerCase())) {
+      $countryDeck.append(renderCountry(countries[i]));
+    }
+  }
+}
+
+function unrenderAll() {
+  const $countryWrappers = document.querySelectorAll('div.country-wrapper');
+
+  $countryWrappers.forEach(function (element) {
+    element.remove();
+  });
+}
+
+$search.addEventListener('input', handleSearch);
