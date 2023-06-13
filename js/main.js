@@ -9,7 +9,7 @@ function getAllCountries() {
   xhr.addEventListener('load', function () {
     countries = xhr.response;
     sortAlphabetical(countries);
-    // renderAll(countries);
+    renderAll(countries);
   });
   xhr.send();
 }
@@ -98,7 +98,7 @@ function renderCountry(country) {
   $countryBack.append($subRegion);
   $countryBack.append($money);
   $countryBack.append($language);
-  $wrapper.append($countryBack);
+  // $wrapper.append($countryBack);
   return $wrapper;
 }
 
