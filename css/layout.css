@@ -38,7 +38,13 @@
 
 .country-wrapper {
   flex-basis: 50%;
-  padding: 0.2rem;
+  padding: 0.3rem;
+  height: 260px;
+}
+
+.country {
+  height: 100%;
+  width: 100%;
 }
 
 @media only screen and (min-width: 620px) {
@@ -53,6 +59,7 @@
   .country-wrapper {
     flex-basis: calc(100% / 3);
     padding: 0.6rem;
+    height: 280px;
   }
 
   #search {
@@ -63,7 +70,6 @@
 @media only screen and (min-width: 1000px) {
   .country-wrapper {
     flex-basis: calc(100% / 5);
-    padding: 0.6rem;
   }
 
   .container {

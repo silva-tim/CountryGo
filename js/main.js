@@ -2,9 +2,10 @@ let countries = null;
 const $countryDeck = document.querySelector('#country-deck');
 const $search = document.querySelector('#search');
 
+// Sends XHR and retrieves all independent countries
 function getAllCountries() {
   const xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://restcountries.com/v3.1/all');
+  xhr.open('GET', 'https://restcountries.com/v3.1/independent?status=true');
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
     countries = xhr.response;
@@ -14,45 +15,118 @@ function getAllCountries() {
   xhr.send();
 }
 
+// Function to render individual country
 function renderCountry(country) {
   const $wrapper = document.createElement('div');
   $wrapper.classList.add('country-wrapper');
 
-  const $country = document.createElement('div');
-  $country.classList.add('country');
+  const $card = document.createElement('div');
+  $card.classList.add('card');
+  $wrapper.append($card);
+
+  // Front Side
+  const $countryF = document.createElement('div');
+  $countryF.classList.add('country', 'country-front');
+  $card.append($countryF);
 
   const $flag = document.createElement('div');
   $flag.classList.add('flag');
-  $country.append($flag);
+  $countryF.append($flag);
 
   const $flagImg = document.createElement('img');
   $flagImg.src = country.flags.png;
   $flagImg.alt = country.flags.alt;
-
-  const $name = document.createElement('h2');
-  $name.textContent = country.name.common;
-
-  const $line = document.createElement('hr');
-
-  const $capital = document.createElement('h3');
-  $capital.textContent = country.capital;
-
-  const $region = document.createElement('h3');
-  $region.textContent = country.region;
-
-  const $population = document.createElement('h3');
-  $population.textContent = formatPopulation(country.population);
-
   $flag.append($flagImg);
-  $country.append($name);
-  $country.append($line);
-  $country.append($capital);
-  $country.append($region);
-  $country.append($population);
-  $wrapper.append($country);
+
+  const $nameF = document.createElement('h2');
+  $nameF.textContent = country.name.common;
+  $countryF.append($nameF);
+
+  const $lineF = document.createElement('hr');
+  $countryF.append($lineF);
+
+  const $capitalF = document.createElement('h3');
+  $capitalF.textContent = country.capital;
+  $countryF.append($capitalF);
+
+  const $regionF = document.createElement('h3');
+  $regionF.textContent = country.region;
+  $countryF.append($regionF);
+
+  const $populationF = document.createElement('h3');
+  $populationF.textContent = formatPopulation(country.population);
+  $countryF.append($populationF);
+
+  // Back Side
+  const $countryB = document.createElement('div');
+  $countryB.classList.add('country', 'country-back');
+  $card.append($countryB);
+
+  const $nameB = document.createElement('h2');
+  $nameB.textContent = country.name.common;
+  $countryB.append($nameB);
+
+  const $lineB = document.createElement('hr');
+  $countryB.append($lineB);
+
+  const $capitalB = document.createElement('h3');
+  $capitalB.textContent = country.capital[0];
+  const $capitalText = document.createElement('span');
+  $capitalText.textContent = 'Capital: ';
+  $capitalB.prepend($capitalText);
+  $countryB.append($capitalB);
+
+  const $regionB = document.createElement('h3');
+  $regionB.textContent = country.region;
+  const $regionText = document.createElement('span');
+  $regionText.textContent = 'Region: ';
+  $regionB.prepend($regionText);
+  $countryB.append($regionB);
+
+  const $populationB = document.createElement('h3');
+  $populationB.textContent = country.population.toLocaleString();
+  const $populationText = document.createElement('span');
+  $populationText.textContent = 'Population: ';
+  $populationB.prepend($populationText);
+  $countryB.append($populationB);
+
+  const $subRegion = document.createElement('h3');
+  $subRegion.textContent = ' ' + country.subregion;
+  const $pinIcon = document.createElement('i');
+  $pinIcon.classList.add('fa-solid', 'fa-map-pin');
+  $subRegion.prepend($pinIcon);
+  $countryB.append($subRegion);
+
+  const $money = document.createElement('h3');
+  $money.textContent = ' ' + Object.keys(country.currencies);
+  const $cashIcon = document.createElement('i');
+  $cashIcon.classList.add('fa-solid', 'fa-money-bill');
+  $money.prepend($cashIcon);
+  $countryB.append($money);
+
+  const arrayLanguage = Object.values(country.languages);
+  const $language = document.createElement('h3');
+  $language.textContent = ' ';
+  // Shortens number of languages to 4 or less
+  for (let i = 0; i < arrayLanguage.length && i < 4; i++) {
+    $language.textContent += Object.values(arrayLanguage)[i];
+    if (i !== 3 && i !== arrayLanguage.length - 1) {
+      $language.textContent += ', ';
+    }
+  }
+  if (arrayLanguage.length > 4) {
+    $language.textContent += ' + more';
+  }
+
+  const $letterIcon = document.createElement('i');
+  $letterIcon.classList.add('fa-solid', 'fa-language');
+  $language.prepend($letterIcon);
+
+  $countryB.append($language);
   return $wrapper;
 }
 
+// Formats population for front side render
 function formatPopulation(number) {
   if (number > 1000000000) {
     return (Math.round(number / 100000000) / 10) + ' Billion People';
@@ -65,12 +139,14 @@ function formatPopulation(number) {
   }
 }
 
+// Renders all countries from an array
 function renderAll(countryArray) {
   for (let i = 0; i < countryArray.length; i++) {
     $countryDeck.append(renderCountry(countryArray[i]));
   }
 }
 
+// Sorts a country array by name(alphabetically)
 function sortAlphabetical(countryArray) {
   countryArray.sort(function (a, b) {
     if (a.name.common > b.name.common) {
@@ -82,6 +158,7 @@ function sortAlphabetical(countryArray) {
   });
 }
 
+// Function to deal with search
 function handleSearch(event) {
   unrenderAll();
 
@@ -92,6 +169,7 @@ function handleSearch(event) {
   }
 }
 
+// Function that unrenders every country
 function unrenderAll() {
   const $countryWrappers = document.querySelectorAll('div.country-wrapper');
 
@@ -100,6 +178,18 @@ function unrenderAll() {
   });
 }
 
+// Function that handles clicking events on cards
+function handleDeck(event) {
+  if (event.target.closest('.card') === null) {
+    return;
+  }
+  const $clickedCard = event.target.closest('.card');
+  $clickedCard.classList.toggle('is-flipped');
+}
+
+// Event listeners
+$countryDeck.addEventListener('click', handleDeck);
 $search.addEventListener('input', handleSearch);
 
+// Run on startup
 getAllCountries();
