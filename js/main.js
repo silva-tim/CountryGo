@@ -9,7 +9,7 @@ function getAllCountries() {
   xhr.addEventListener('load', function () {
     countries = xhr.response;
     sortAlphabetical(countries);
-    // renderAll(countries);
+    renderAll(countries);
   });
   xhr.send();
 }
