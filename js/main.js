@@ -18,64 +18,74 @@ function renderCountry(country) {
   const $wrapper = document.createElement('div');
   $wrapper.classList.add('country-wrapper');
 
-  const $country = document.createElement('div');
-  $country.classList.add('country');
+  const $card = document.createElement('div');
+  $card.classList.add('card');
+  $wrapper.append($card);
+
+  // Front Side
+  const $countryF = document.createElement('div');
+  $countryF.classList.add('country', 'country-front');
+  $card.append($countryF);
 
   const $flag = document.createElement('div');
   $flag.classList.add('flag');
-  $country.append($flag);
+  $countryF.append($flag);
 
   const $flagImg = document.createElement('img');
   $flagImg.src = country.flags.png;
   $flagImg.alt = country.flags.alt;
-
-  const $name = document.createElement('h2');
-  $name.textContent = country.name.common;
-
-  const $line = document.createElement('hr');
-
-  const $capital = document.createElement('h3');
-  $capital.textContent = country.capital;
-
-  const $region = document.createElement('h3');
-  $region.textContent = country.region;
-
-  const $population = document.createElement('h3');
-  $population.textContent = formatPopulation(country.population);
-
   $flag.append($flagImg);
-  $country.append($name);
-  $country.append($line);
-  $country.append($capital);
-  $country.append($region);
-  $country.append($population);
-  $wrapper.append($country);
 
-  const $countryBack = document.createElement('div');
-  $countryBack.classList.add('country');
+  const $nameF = document.createElement('h2');
+  $nameF.textContent = country.name.common;
+  $countryF.append($nameF);
+
+  const $lineF = document.createElement('hr');
+  $countryF.append($lineF);
+
+  const $capitalF = document.createElement('h3');
+  $capitalF.textContent = country.capital;
+  $countryF.append($capitalF);
+
+  const $regionF = document.createElement('h3');
+  $regionF.textContent = country.region;
+  $countryF.append($regionF);
+
+  const $populationF = document.createElement('h3');
+  $populationF.textContent = formatPopulation(country.population);
+  $countryF.append($populationF);
+
+  // Back Side
+  const $countryB = document.createElement('div');
+  $countryB.classList.add('country', 'country-back');
+  $card.append($countryB);
 
   const $nameB = document.createElement('h2');
   $nameB.textContent = country.name.common;
+  $countryB.append($nameB);
 
   const $lineB = document.createElement('hr');
+  $countryB.append($lineB);
 
   const $capitalB = document.createElement('h3');
   $capitalB.innerHTML = '<span>Capitol: </span>' + country.capital[0];
+  $countryB.append($capitalB);
 
   const $regionB = document.createElement('h3');
   $regionB.innerHTML = '<span>Region: </span>' + country.region;
+  $countryB.append($regionB);
 
   const $populationB = document.createElement('h3');
   $populationB.innerHTML = '<span>Population: </span>' + country.population.toLocaleString();
-
-  const $pinIcon = document.createElement('i');
-  $pinIcon.classList.add('fa-solid', 'fa-ma-pin');
+  $countryB.append($populationB);
 
   const $subRegion = document.createElement('h3');
   $subRegion.innerHTML = '<i class="fa-solid fa-map-pin"></i> ' + country.subregion;
+  $countryB.append($subRegion);
 
   const $money = document.createElement('h3');
   $money.innerHTML = '<i class="fa-solid fa-money-bill"></i> ' + Object.keys(country.currencies);
+  $countryB.append($money);
 
   const arrayLanguage = Object.values(country.languages);
   const $language = document.createElement('h3');
@@ -89,16 +99,8 @@ function renderCountry(country) {
   if (arrayLanguage.length > 4) {
     $language.innerHTML += ' + more';
   }
+  $countryB.append($language);
 
-  $countryBack.append($nameB);
-  $countryBack.append($lineB);
-  $countryBack.append($capitalB);
-  $countryBack.append($regionB);
-  $countryBack.append($populationB);
-  $countryBack.append($subRegion);
-  $countryBack.append($money);
-  $countryBack.append($language);
-  // $wrapper.append($countryBack);
   return $wrapper;
 }
 
@@ -149,15 +151,15 @@ function unrenderAll() {
   });
 }
 
+function handleDeck(event) {
+  if (event.target.closest('.card') === null) {
+    return;
+  }
+  const $clickedCard = event.target.closest('.card');
+  $clickedCard.classList.toggle('is-flipped');
+}
+
+$countryDeck.addEventListener('click', handleDeck);
 $search.addEventListener('input', handleSearch);
 
 getAllCountries();
-
-const $front = document.querySelector('.country-front');
-const $back = document.querySelector('.country-back');
-const $countryWrapper = document.querySelector('.country-wrapper');
-
-$countryWrapper.addEventListener('click', function () {
-  $front.classList.toggle('hidden');
-  $back.classList.toggle('hidden');
-});

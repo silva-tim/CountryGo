@@ -14,7 +14,7 @@ img {
   width: 100%;
 }
 
-.merriweather {
+h1 {
   font-family: Merriweather, sans-serif;
 }
 
@@ -68,13 +68,16 @@ h3 {
   border-radius: 0.3rem;
   line-height: 0.8rem;
   box-shadow: 4px 8px 10px grey;
-  padding-bottom: 0.4rem;
   overflow: hidden;
   border: 0.1px solid black;
+
+  /* Card Flip */
+  position: absolute;
+  backface-visibility: hidden;
 }
 
 .flag {
-  height: 110px;
+  /* height: 110px; */
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -100,4 +103,27 @@ h3 {
 span {
   font-size: 0.42rem;
   font-weight: bold;
+}
+
+/* Card Flip */
+
+.country-wrapper {
+  perspective: 600px;
+}
+
+.card {
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+}
+
+.country-back {
+  transform: rotateY(180deg);
+}
+
+.is-flipped {
+  transform: rotateY(-180deg);
 }
