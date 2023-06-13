@@ -69,6 +69,10 @@ h3 {
   height: 240px;
   width: 196px;
   border: 0.1px solid black;
+
+  /* test */
+  position: absolute;
+  backface-visibility: hidden;
 }
 
 .flag {
@@ -98,4 +102,27 @@ h3 {
 span {
   font-size: 0.42rem;
   font-weight: bold;
+}
+
+/* Testing css flip */
+.country-wrapper {
+  position: relative;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+  width: 100%;
+  height: 100%;
+}
+
+.country-back {
+  transform: rotateY(180deg);
+}
+
+.is-flipped {
+  transform: rotateY(-180deg);
+}
+
+.card {
+  perspective: 600px;
+  width: 196px;
+  height: 240px;
 }

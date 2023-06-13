@@ -9,7 +9,7 @@ function getAllCountries() {
   xhr.addEventListener('load', function () {
     countries = xhr.response;
     sortAlphabetical(countries);
-    renderAll(countries);
+    // renderAll(countries);
   });
   xhr.send();
 }
@@ -152,3 +152,11 @@ function unrenderAll() {
 $search.addEventListener('input', handleSearch);
 
 getAllCountries();
+
+// test
+
+const $card = document.querySelector('.country-wrapper');
+
+$card.addEventListener('click', function () {
+  $card.classList.toggle('is-flipped');
+});
