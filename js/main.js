@@ -153,10 +153,11 @@ $search.addEventListener('input', handleSearch);
 
 getAllCountries();
 
-// test
+const $front = document.querySelector('.country-front');
+const $back = document.querySelector('.country-back');
+const $countryWrapper = document.querySelector('.country-wrapper');
 
-const $card = document.querySelector('.country-wrapper');
-
-$card.addEventListener('click', function () {
-  $card.classList.toggle('is-flipped');
+$countryWrapper.addEventListener('click', function () {
+  $front.classList.toggle('hidden');
+  $back.classList.toggle('hidden');
 });

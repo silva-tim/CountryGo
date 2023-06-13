@@ -2,6 +2,10 @@ header {
   background-color: #8eb897;
 }
 
+.hidden {
+  display: none;
+}
+
 main {
   background-color: #f3f3f3;
 }
