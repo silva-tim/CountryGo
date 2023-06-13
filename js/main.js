@@ -2,6 +2,7 @@ let countries = null;
 const $countryDeck = document.querySelector('#country-deck');
 const $search = document.querySelector('#search');
 
+// Sends XHR and retrieves all independent countries
 function getAllCountries() {
   const xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://restcountries.com/v3.1/independent?status=true');
@@ -14,6 +15,7 @@ function getAllCountries() {
   xhr.send();
 }
 
+// Function to render individual country
 function renderCountry(country) {
   const $wrapper = document.createElement('div');
   $wrapper.classList.add('country-wrapper');
@@ -68,42 +70,63 @@ function renderCountry(country) {
   $countryB.append($lineB);
 
   const $capitalB = document.createElement('h3');
-  $capitalB.innerHTML = '<span>Capitol: </span>' + country.capital[0];
+  $capitalB.textContent = country.capital[0];
+  const $capitalText = document.createElement('span');
+  $capitalText.textContent = 'Capital: ';
+  $capitalB.prepend($capitalText);
   $countryB.append($capitalB);
 
   const $regionB = document.createElement('h3');
-  $regionB.innerHTML = '<span>Region: </span>' + country.region;
+  $regionB.textContent = country.region;
+  const $regionText = document.createElement('span');
+  $regionText.textContent = 'Region: ';
+  $regionB.prepend($regionText);
   $countryB.append($regionB);
 
   const $populationB = document.createElement('h3');
-  $populationB.innerHTML = '<span>Population: </span>' + country.population.toLocaleString();
+  $populationB.textContent = country.population.toLocaleString();
+  const $populationText = document.createElement('span');
+  $populationText.textContent = 'Population: ';
+  $populationB.prepend($populationText);
   $countryB.append($populationB);
 
   const $subRegion = document.createElement('h3');
-  $subRegion.innerHTML = '<i class="fa-solid fa-map-pin"></i> ' + country.subregion;
+  $subRegion.textContent = ' ' + country.subregion;
+  const $pinIcon = document.createElement('i');
+  $pinIcon.classList.add('fa-solid', 'fa-map-pin');
+  $subRegion.prepend($pinIcon);
   $countryB.append($subRegion);
 
   const $money = document.createElement('h3');
-  $money.innerHTML = '<i class="fa-solid fa-money-bill"></i> ' + Object.keys(country.currencies);
+  $money.textContent = ' ' + Object.keys(country.currencies);
+  const $cashIcon = document.createElement('i');
+  $cashIcon.classList.add('fa-solid', 'fa-money-bill');
+  $money.prepend($cashIcon);
   $countryB.append($money);
 
   const arrayLanguage = Object.values(country.languages);
   const $language = document.createElement('h3');
-  $language.innerHTML = '<i class="fa-solid fa-language"></i> ';
+  $language.textContent = ' ';
+  // Shortens number of languages to 4 or less
   for (let i = 0; i < arrayLanguage.length && i < 4; i++) {
-    $language.innerHTML += Object.values(arrayLanguage)[i];
+    $language.textContent += Object.values(arrayLanguage)[i];
     if (i !== 3 && i !== arrayLanguage.length - 1) {
-      $language.innerHTML += ', ';
+      $language.textContent += ', ';
     }
   }
   if (arrayLanguage.length > 4) {
-    $language.innerHTML += ' + more';
+    $language.textContent += ' + more';
   }
-  $countryB.append($language);
 
+  const $letterIcon = document.createElement('i');
+  $letterIcon.classList.add('fa-solid', 'fa-language');
+  $language.prepend($letterIcon);
+
+  $countryB.append($language);
   return $wrapper;
 }
 
+// Formats population for front side render
 function formatPopulation(number) {
   if (number > 1000000000) {
     return (Math.round(number / 100000000) / 10) + ' Billion People';
@@ -116,12 +139,14 @@ function formatPopulation(number) {
   }
 }
 
+// Renders all countries from an array
 function renderAll(countryArray) {
   for (let i = 0; i < countryArray.length; i++) {
     $countryDeck.append(renderCountry(countryArray[i]));
   }
 }
 
+// Sorts a country array by name(alphabetically)
 function sortAlphabetical(countryArray) {
   countryArray.sort(function (a, b) {
     if (a.name.common > b.name.common) {
@@ -133,6 +158,7 @@ function sortAlphabetical(countryArray) {
   });
 }
 
+// Function to deal with search
 function handleSearch(event) {
   unrenderAll();
 
@@ -143,6 +169,7 @@ function handleSearch(event) {
   }
 }
 
+// Function that unrenders every country
 function unrenderAll() {
   const $countryWrappers = document.querySelectorAll('div.country-wrapper');
 
@@ -151,6 +178,7 @@ function unrenderAll() {
   });
 }
 
+// Function that handles clicking events on cards
 function handleDeck(event) {
   if (event.target.closest('.card') === null) {
     return;
@@ -159,7 +187,9 @@ function handleDeck(event) {
   $clickedCard.classList.toggle('is-flipped');
 }
 
+// Event listeners
 $countryDeck.addEventListener('click', handleDeck);
 $search.addEventListener('input', handleSearch);
 
+// Run on startup
 getAllCountries();
