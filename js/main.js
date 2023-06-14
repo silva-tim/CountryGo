@@ -14,8 +14,7 @@ function getAllCountries() {
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
     countries = xhr.response;
-    sortAlphabetical(countries);
-    renderArray(countries);
+    viewSwap(data.page);
   });
   xhr.send();
 }
@@ -147,23 +146,52 @@ function renderCountry(country) {
   return $wrapper;
 }
 
-// Formats population for front side render
-function formatPopulation(number) {
-  if (number > 1000000000) {
-    return (Math.round(number / 100000000) / 10) + ' Billion People';
-  } else if (number > 100000000) {
-    return (Math.round(number / 1000000)) + ' Million People';
-  } else if (number > 1000000) {
-    return (Math.round(number / 100000) / 10) + ' Million People';
-  } else {
-    return '< 1 Million People';
-  }
-}
-
 // Renders all countries from an array
 function renderArray(countryArray) {
   for (let i = 0; i < countryArray.length; i++) {
     $countryDeck.append(renderCountry(countryArray[i]));
+  }
+}
+
+// Function that unrenders every country
+function unrenderAll() {
+  const $countryWrappers = document.querySelectorAll('div.country-wrapper');
+
+  $countryWrappers.forEach(function (element) {
+    element.remove();
+  });
+}
+
+function viewSwap(page) {
+  unrenderAll();
+  changeSearch = false;
+  $switchToBucket.classList.remove('white');
+  $switchToHome.classList.remove('white');
+  $subhead.classList.add('hidden');
+  $noEntries.classList.add('hidden');
+  data.page = page;
+
+  if (page === 'bucketList') {
+    changeSearch = true;
+    $subhead.classList.remove('hidden');
+    $switchToBucket.classList.add('white');
+
+    if (data.savedCountries.length < 1) {
+      $search.classList.add('hidden');
+      $noEntries.classList.remove('hidden');
+    } else {
+      $noEntries.classList.add('hidden');
+      $search.classList.remove('hidden');
+      sortAlphabetical(data.savedCountries);
+      renderArray(data.savedCountries);
+    }
+  }
+
+  if (page === 'home') {
+    $switchToHome.classList.add('white');
+    $search.classList.remove('hidden');
+    sortAlphabetical(countries);
+    renderArray(countries);
   }
 }
 
@@ -198,15 +226,6 @@ function handleSearch(event) {
   }
 }
 
-// Function that unrenders every country
-function unrenderAll() {
-  const $countryWrappers = document.querySelectorAll('div.country-wrapper');
-
-  $countryWrappers.forEach(function (element) {
-    element.remove();
-  });
-}
-
 // Function that handles clicking events on cards
 function handleDeck(event) {
   const $countryClicked = event.target.closest('.card');
@@ -223,35 +242,16 @@ function handleDeck(event) {
   $countryClicked.classList.toggle('is-flipped');
 }
 
-function viewSwap(page) {
-  unrenderAll();
-  changeSearch = false;
-  $switchToBucket.classList.remove('white');
-  $switchToHome.classList.remove('white');
-  $subhead.classList.add('hidden');
-  $noEntries.classList.add('hidden');
-  data.page = page;
-
-  if (page === 'bucketList') {
-    changeSearch = true;
-    $subhead.classList.remove('hidden');
-    $switchToBucket.classList.add('white');
-
-    if (data.savedCountries.length < 1) {
-      $search.classList.add('hidden');
-      $noEntries.classList.remove('hidden');
-    } else {
-      $noEntries.classList.add('hidden');
-      $search.classList.remove('hidden');
-      sortAlphabetical(data.savedCountries);
-      renderArray(data.savedCountries);
-    }
-  }
-
-  if (page === 'home') {
-    $switchToHome.classList.add('white');
-    $search.classList.remove('hidden');
-    renderArray(countries);
+// Formats population for front side render
+function formatPopulation(number) {
+  if (number > 1000000000) {
+    return (Math.round(number / 100000000) / 10) + ' Billion People';
+  } else if (number > 100000000) {
+    return (Math.round(number / 1000000)) + ' Million People';
+  } else if (number > 1000000) {
+    return (Math.round(number / 100000) / 10) + ' Million People';
+  } else {
+    return '< 1 Million People';
   }
 }
 
