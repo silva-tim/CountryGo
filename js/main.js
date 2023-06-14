@@ -1,4 +1,5 @@
 let countries = null;
+let changeSearch = false;
 const $countryDeck = document.querySelector('#country-deck');
 const $search = document.querySelector('#search-bar');
 const $switchToBucket = document.querySelector('#plane');
@@ -182,9 +183,17 @@ function sortAlphabetical(countryArray) {
 function handleSearch(event) {
   unrenderAll();
 
-  for (let i = 0; i < countries.length; i++) {
-    if (countries[i].name.common.toLowerCase().includes(event.target.value.toLowerCase())) {
-      $countryDeck.append(renderCountry(countries[i]));
+  if (changeSearch === true) {
+    for (let i = 0; i < data.savedCountries.length; i++) {
+      if (data.savedCountries[i].name.common.toLowerCase().includes(event.target.value.toLowerCase())) {
+        $countryDeck.append(renderCountry(data.savedCountries[i]));
+      }
+    }
+  } else {
+    for (let i = 0; i < countries.length; i++) {
+      if (countries[i].name.common.toLowerCase().includes(event.target.value.toLowerCase())) {
+        $countryDeck.append(renderCountry(countries[i]));
+      }
     }
   }
 }
@@ -207,7 +216,7 @@ function handleDeck(event) {
 
   if (event.target.matches('button')) {
     event.target.classList.add('hidden');
-    data.savedCountries.push({ cca3: $countryClicked.getAttribute('data-cca3'), notes: '' });
+    data.savedCountries.push(getCountryFromCCA3($countryClicked.getAttribute('data-cca3')));
     return;
   }
 
@@ -216,6 +225,7 @@ function handleDeck(event) {
 
 function viewSwap(page) {
   unrenderAll();
+  changeSearch = false;
   $switchToBucket.classList.remove('white');
   $switchToHome.classList.remove('white');
   $subhead.classList.add('hidden');
@@ -223,6 +233,7 @@ function viewSwap(page) {
   data.page = page;
 
   if (page === 'bucketList') {
+    changeSearch = true;
     $subhead.classList.remove('hidden');
     $switchToBucket.classList.add('white');
 
@@ -232,12 +243,8 @@ function viewSwap(page) {
     } else {
       $noEntries.classList.add('hidden');
       $search.classList.remove('hidden');
-      const savedCountriesArray = [];
-      for (let i = 0; i < data.savedCountries.length; i++) {
-        savedCountriesArray.push(getCountryFromCCA3(data.savedCountries[i].cca3));
-      }
-      sortAlphabetical(savedCountriesArray);
-      renderArray(savedCountriesArray);
+      sortAlphabetical(data.savedCountries);
+      renderArray(data.savedCountries);
     }
   }
 
