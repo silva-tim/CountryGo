@@ -47,7 +47,7 @@ function renderCountry(country) {
   $countryF.append($lineF);
 
   const $capitalF = document.createElement('h3');
-  $capitalF.textContent = country.capital;
+  $capitalF.textContent = country.capital[0];
   $countryF.append($capitalF);
 
   const $regionF = document.createElement('h3');
@@ -123,8 +123,15 @@ function renderCountry(country) {
   const $letterIcon = document.createElement('i');
   $letterIcon.classList.add('fa-solid', 'fa-language');
   $language.prepend($letterIcon);
-
   $countryB.append($language);
+
+  const $buttonRow = document.createElement('div');
+  $buttonRow.classList.add('row', 'justifycenter');
+  const $button = document.createElement('button');
+  $button.textContent = 'Bucket List';
+  $countryB.append($buttonRow);
+  $buttonRow.append($button);
+
   return $wrapper;
 }
 

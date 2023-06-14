@@ -124,6 +124,20 @@ span {
   font-weight: bold;
 }
 
+button {
+  font-size: 0.6rem;
+  padding: 2px 25px;
+  background-color: #c3e8bd;
+  border: 1px solid black;
+  cursor: pointer;
+  position: absolute;
+  bottom: 4px;
+}
+
+button:hover {
+  background-color: white;
+}
+
 /* Card Flip */
 .country-wrapper {
   perspective: 600px;
