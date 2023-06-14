@@ -1,4 +1,5 @@
 /* exported data */
 const data = {
-  savedCountries: []
+  savedCountries: [],
+  page: 'home'
 };

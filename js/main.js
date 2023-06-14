@@ -137,6 +137,12 @@ function renderCountry(country) {
   $countryB.append($buttonRow);
   $buttonRow.append($button);
 
+  for (let i = 0; i < data.savedCountries.length; i++) {
+    if (data.savedCountries[i].cca3 === country.cca3) {
+      $button.classList.add('hidden');
+    }
+  }
+
   return $wrapper;
 }
 
@@ -216,6 +222,7 @@ function viewSwap(page) {
   $noEntries.classList.add('hidden');
 
   if (page === 'bucketList') {
+    data.page = 'bucketList';
     const savedCountriesArray = [];
     $subhead.classList.remove('hidden');
     $switchToBucket.classList.add('white');
@@ -233,6 +240,7 @@ function viewSwap(page) {
       renderArray(savedCountriesArray);
     }
   } else if (page === 'home') {
+    data.page = 'home';
     $switchToHome.classList.add('white');
     $search.classList.remove('hidden');
     renderArray(countries);
