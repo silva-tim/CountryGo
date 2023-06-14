@@ -220,10 +220,9 @@ function viewSwap(page) {
   $switchToHome.classList.remove('white');
   $subhead.classList.add('hidden');
   $noEntries.classList.add('hidden');
+  data.page = page;
 
   if (page === 'bucketList') {
-    data.page = 'bucketList';
-    const savedCountriesArray = [];
     $subhead.classList.remove('hidden');
     $switchToBucket.classList.add('white');
 
@@ -233,14 +232,16 @@ function viewSwap(page) {
     } else {
       $noEntries.classList.add('hidden');
       $search.classList.remove('hidden');
+      const savedCountriesArray = [];
       for (let i = 0; i < data.savedCountries.length; i++) {
         savedCountriesArray.push(getCountryFromCCA3(data.savedCountries[i].cca3));
       }
       sortAlphabetical(savedCountriesArray);
       renderArray(savedCountriesArray);
     }
-  } else if (page === 'home') {
-    data.page = 'home';
+  }
+
+  if (page === 'home') {
     $switchToHome.classList.add('white');
     $search.classList.remove('hidden');
     renderArray(countries);
