@@ -22,6 +22,7 @@ function renderCountry(country) {
 
   const $card = document.createElement('div');
   $card.classList.add('card');
+  $card.setAttribute('data-cca3', country.cca3);
   $wrapper.append($card);
 
   // Front Side
@@ -189,11 +190,17 @@ function unrenderAll() {
 
 // Function that handles clicking events on cards
 function handleDeck(event) {
-  if (event.target.closest('.card') === null) {
+  const $countryClicked = event.target.closest('.card');
+  if ($countryClicked === null) {
     return;
   }
-  const $clickedCard = event.target.closest('.card');
-  $clickedCard.classList.toggle('is-flipped');
+
+  if (event.target.matches('button')) {
+    data.savedCountries.push($countryClicked.getAttribute('data-cca3'));
+    return;
+  }
+
+  $countryClicked.classList.toggle('is-flipped');
 }
 
 // Event listeners
