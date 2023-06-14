@@ -2,6 +2,7 @@ let countries = null;
 const $countryDeck = document.querySelector('#country-deck');
 const $search = document.querySelector('#search');
 const $switchToBucket = document.querySelector('#a-tag-plane');
+const $subhead = document.querySelector('#subhead');
 
 // Sends XHR and retrieves all independent countries
 function getAllCountries() {
@@ -210,6 +211,8 @@ function viewSwap(event) {
 
   if (event.target.closest('a').getAttribute('id') === 'a-tag-plane') {
     const savedCountriesArray = [];
+    $subhead.classList.remove('hidden');
+    $switchToBucket.classList.add('white');
 
     for (let i = 0; i < data.savedCountries.length; i++) {
       savedCountriesArray.push(getCountryFromCCA3(data.savedCountries[i].cca3));

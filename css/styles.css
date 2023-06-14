@@ -14,7 +14,7 @@ img {
   width: 100%;
 }
 
-.subhead {
+#subhead {
   background-color: #c3e8bd;
 }
 
@@ -40,6 +40,10 @@ h1 {
 #question:hover,
 #planetop:hover {
   cursor: pointer;
+  color: white;
+}
+
+.white {
   color: white;
 }
 
