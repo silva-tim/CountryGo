@@ -1,7 +1,8 @@
 let countries = null;
 const $countryDeck = document.querySelector('#country-deck');
 const $search = document.querySelector('#search-bar');
-const $switchToBucket = document.querySelector('#a-tag-plane');
+const $switchToBucket = document.querySelector('#plane');
+const $switchToHome = document.querySelector('#home');
 const $subhead = document.querySelector('#subhead');
 const $noEntries = document.querySelector('#no-entries');
 
@@ -13,7 +14,7 @@ function getAllCountries() {
   xhr.addEventListener('load', function () {
     countries = xhr.response;
     sortAlphabetical(countries);
-    renderAll(countries);
+    renderArray(countries);
   });
   xhr.send();
 }
@@ -153,7 +154,7 @@ function formatPopulation(number) {
 }
 
 // Renders all countries from an array
-function renderAll(countryArray) {
+function renderArray(countryArray) {
   for (let i = 0; i < countryArray.length; i++) {
     $countryDeck.append(renderCountry(countryArray[i]));
   }
@@ -207,17 +208,21 @@ function handleDeck(event) {
   $countryClicked.classList.toggle('is-flipped');
 }
 
-function viewSwap(event) {
+function viewSwap(page) {
   unrenderAll();
+  $switchToBucket.classList.remove('white');
+  $switchToHome.classList.remove('white');
+  $subhead.classList.add('hidden');
+  $noEntries.classList.add('hidden');
 
-  if (event.target.closest('a').getAttribute('id') === 'a-tag-plane') {
+  if (page === 'bucketList') {
     const savedCountriesArray = [];
     $subhead.classList.remove('hidden');
     $switchToBucket.classList.add('white');
 
     if (data.savedCountries.length < 1) {
-      $noEntries.classList.remove('hidden');
       $search.classList.add('hidden');
+      $noEntries.classList.remove('hidden');
     } else {
       $noEntries.classList.add('hidden');
       $search.classList.remove('hidden');
@@ -225,8 +230,12 @@ function viewSwap(event) {
         savedCountriesArray.push(getCountryFromCCA3(data.savedCountries[i].cca3));
       }
       sortAlphabetical(savedCountriesArray);
-      renderAll(savedCountriesArray);
+      renderArray(savedCountriesArray);
     }
+  } else if (page === 'home') {
+    $switchToHome.classList.add('white');
+    $search.classList.remove('hidden');
+    renderArray(countries);
   }
 }
 
@@ -241,7 +250,8 @@ function getCountryFromCCA3(cca3) {
 // Event listeners
 $countryDeck.addEventListener('click', handleDeck);
 $search.addEventListener('input', handleSearch);
-$switchToBucket.addEventListener('click', viewSwap);
+$switchToBucket.addEventListener('click', function () { viewSwap('bucketList'); });
+$switchToHome.addEventListener('click', function () { viewSwap('home'); });
 
 // Run on startup
 getAllCountries();

@@ -30,15 +30,13 @@ h1 {
   font-family: Merriweather, sans-serif;
 }
 
-#question,
-#planetop {
+.top-bar {
   font-size: 0.9rem;
   filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.511));
   padding-right: 0.6rem;
 }
 
-#question:hover,
-#planetop:hover {
+.top-bar:hover {
   cursor: pointer;
   color: white;
 }
