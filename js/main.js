@@ -133,7 +133,7 @@ function renderCountry(country) {
   const $buttonRow = document.createElement('div');
   $buttonRow.classList.add('row', 'justifycenter');
   const $button = document.createElement('button');
-  $button.textContent = 'Bucket List';
+  $button.textContent = 'Add to Bucket List';
   $countryB.append($buttonRow);
   $buttonRow.append($button);
 

@@ -128,16 +128,17 @@ span {
 
 button {
   font-size: 0.6rem;
-  padding: 2px 25px;
+  width: 100%;
   background-color: #c3e8bd;
-  border: 1px solid black;
+  border: none;
   cursor: pointer;
   position: absolute;
   bottom: 4px;
 }
 
 button:hover {
-  background-color: white;
+  /* background-color: white; */
+  border: 1px solid black;
 }
 
 /* Card Flip */
@@ -150,7 +151,7 @@ button:hover {
   width: 100%;
   height: 100%;
   position: relative;
-  transition: transform 1s;
+  transition: transform 0.6s;
   transform-style: preserve-3d;
 }
 
