@@ -1,11 +1,12 @@
 let countries = null;
 const $countryDeck = document.querySelector('#country-deck');
 const $search = document.querySelector('#search');
+const $switchToBucket = document.querySelector('#a-tag-plane');
 
 // Sends XHR and retrieves all independent countries
 function getAllCountries() {
   const xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://restcountries.com/v3.1/independent?status=true');
+  xhr.open('GET', 'https://restcountries.com/v3.1/independent?status=true&fields=capital,cca3,currencies,flags,languages,name,population,region,subregion');
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
     countries = xhr.response;
@@ -196,16 +197,40 @@ function handleDeck(event) {
   }
 
   if (event.target.matches('button')) {
-    data.savedCountries.push($countryClicked.getAttribute('data-cca3'));
+    event.target.classList.add('hidden');
+    data.savedCountries.push({ cca3: $countryClicked.getAttribute('data-cca3'), notes: '' });
     return;
   }
 
   $countryClicked.classList.toggle('is-flipped');
 }
 
+function viewSwap(event) {
+  unrenderAll();
+
+  if (event.target.closest('a').getAttribute('id') === 'a-tag-plane') {
+    const savedCountriesArray = [];
+
+    for (let i = 0; i < data.savedCountries.length; i++) {
+      savedCountriesArray.push(getCountryFromCCA3(data.savedCountries[i].cca3));
+    }
+    sortAlphabetical(savedCountriesArray);
+    renderAll(savedCountriesArray);
+  }
+}
+
+function getCountryFromCCA3(cca3) {
+  for (let i = 0; i < countries.length; i++) {
+    if (countries[i].cca3 === cca3) {
+      return countries[i];
+    }
+  }
+}
+
 // Event listeners
 $countryDeck.addEventListener('click', handleDeck);
 $search.addEventListener('input', handleSearch);
+$switchToBucket.addEventListener('click', viewSwap);
 
 // Run on startup
 getAllCountries();
