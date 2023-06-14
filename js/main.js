@@ -1,8 +1,9 @@
 let countries = null;
 const $countryDeck = document.querySelector('#country-deck');
-const $search = document.querySelector('#search');
+const $search = document.querySelector('#search-bar');
 const $switchToBucket = document.querySelector('#a-tag-plane');
 const $subhead = document.querySelector('#subhead');
+const $noEntries = document.querySelector('#no-entries');
 
 // Sends XHR and retrieves all independent countries
 function getAllCountries() {
@@ -214,11 +215,18 @@ function viewSwap(event) {
     $subhead.classList.remove('hidden');
     $switchToBucket.classList.add('white');
 
-    for (let i = 0; i < data.savedCountries.length; i++) {
-      savedCountriesArray.push(getCountryFromCCA3(data.savedCountries[i].cca3));
+    if (data.savedCountries.length < 1) {
+      $noEntries.classList.remove('hidden');
+      $search.classList.add('hidden');
+    } else {
+      $noEntries.classList.add('hidden');
+      $search.classList.remove('hidden');
+      for (let i = 0; i < data.savedCountries.length; i++) {
+        savedCountriesArray.push(getCountryFromCCA3(data.savedCountries[i].cca3));
+      }
+      sortAlphabetical(savedCountriesArray);
+      renderAll(savedCountriesArray);
     }
-    sortAlphabetical(savedCountriesArray);
-    renderAll(savedCountriesArray);
   }
 }
 
