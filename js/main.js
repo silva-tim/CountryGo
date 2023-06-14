@@ -39,6 +39,7 @@ function renderCountry(country) {
   $flag.append($flagImg);
 
   const $nameF = document.createElement('h2');
+  $nameF.classList.add('country-name');
   $nameF.textContent = country.name.common;
   $countryF.append($nameF);
 
@@ -63,6 +64,7 @@ function renderCountry(country) {
   $card.append($countryB);
 
   const $nameB = document.createElement('h2');
+  $nameB.classList.add('country-name');
   $nameB.textContent = country.name.common;
   $countryB.append($nameB);
 
