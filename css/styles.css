@@ -2,22 +2,22 @@ header {
   background-color: #8eb897;
 }
 
+body {
+  background-color: #f3f3f3;
+}
+
+#subhead {
+  background-color: #c3e8bd;
+}
+
 .hidden {
   --fa-display: none;
 
   display: none;
 }
 
-body {
-  background-color: #f3f3f3;
-}
-
 img {
   width: 100%;
-}
-
-#subhead {
-  background-color: #c3e8bd;
 }
 
 h2#bucketlist-heading {

@@ -63,9 +63,9 @@ function renderCountry(country) {
   $populationF.textContent = formatPopulation(country.population);
   $countryF.append($populationF);
 
-  const $airplane = document.createElement('i');
-  $airplane.classList.add('fa-solid', 'fa-paper-plane', 'hidden', 'card-plane');
-  $countryF.append($airplane);
+  const $airplaneF = document.createElement('i');
+  $airplaneF.classList.add('fa-solid', 'fa-paper-plane', 'hidden', 'card-plane');
+  $countryF.append($airplaneF);
 
   // Back Side
   const $countryB = document.createElement('div');
@@ -141,10 +141,11 @@ function renderCountry(country) {
   $countryB.append($buttonRow);
   $buttonRow.append($button);
 
+  // Hides button and adds plane icon if country is already saved
   for (let i = 0; i < data.savedCountries.length; i++) {
     if (data.savedCountries[i].cca3 === country.cca3) {
       $button.classList.add('hidden');
-      $airplane.classList.remove('hidden');
+      $airplaneF.classList.remove('hidden');
     }
   }
 
