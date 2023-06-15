@@ -1,16 +1,21 @@
 let countries = null;
+let changeSearch = false;
 const $countryDeck = document.querySelector('#country-deck');
+const $searchBar = document.querySelector('#search-bar');
 const $search = document.querySelector('#search');
+const $switchToBucket = document.querySelector('#plane');
+const $switchToHome = document.querySelector('#home');
+const $subhead = document.querySelector('#subhead');
+const $noEntries = document.querySelector('#no-entries');
 
 // Sends XHR and retrieves all independent countries
 function getAllCountries() {
   const xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://restcountries.com/v3.1/independent?status=true');
+  xhr.open('GET', 'https://restcountries.com/v3.1/independent?status=true&fields=capital,cca3,currencies,flags,languages,name,population,region,subregion');
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
     countries = xhr.response;
-    sortAlphabetical(countries);
-    renderAll(countries);
+    viewSwap(data.page);
   });
   xhr.send();
 }
@@ -22,6 +27,7 @@ function renderCountry(country) {
 
   const $card = document.createElement('div');
   $card.classList.add('card');
+  $card.setAttribute('data-cca3', country.cca3);
   $wrapper.append($card);
 
   // Front Side
@@ -39,6 +45,7 @@ function renderCountry(country) {
   $flag.append($flagImg);
 
   const $nameF = document.createElement('h2');
+  $nameF.classList.add('country-name');
   $nameF.textContent = country.name.common;
   $countryF.append($nameF);
 
@@ -46,7 +53,7 @@ function renderCountry(country) {
   $countryF.append($lineF);
 
   const $capitalF = document.createElement('h3');
-  $capitalF.textContent = country.capital;
+  $capitalF.textContent = country.capital[0];
   $countryF.append($capitalF);
 
   const $regionF = document.createElement('h3');
@@ -57,12 +64,17 @@ function renderCountry(country) {
   $populationF.textContent = formatPopulation(country.population);
   $countryF.append($populationF);
 
+  const $airplaneF = document.createElement('i');
+  $airplaneF.classList.add('fa-solid', 'fa-paper-plane', 'hidden', 'card-plane');
+  $countryF.append($airplaneF);
+
   // Back Side
   const $countryB = document.createElement('div');
   $countryB.classList.add('country', 'country-back');
   $card.append($countryB);
 
   const $nameB = document.createElement('h2');
+  $nameB.classList.add('country-name');
   $nameB.textContent = country.name.common;
   $countryB.append($nameB);
 
@@ -121,28 +133,73 @@ function renderCountry(country) {
   const $letterIcon = document.createElement('i');
   $letterIcon.classList.add('fa-solid', 'fa-language');
   $language.prepend($letterIcon);
-
   $countryB.append($language);
+
+  const $buttonRow = document.createElement('div');
+  $buttonRow.classList.add('row', 'justifycenter');
+  const $button = document.createElement('button');
+  $button.textContent = 'Add to Bucket List';
+  $countryB.append($buttonRow);
+  $buttonRow.append($button);
+
+  // Hides button and adds plane icon if country is already saved
+  for (let i = 0; i < data.savedCountries.length; i++) {
+    if (data.savedCountries[i].cca3 === country.cca3) {
+      $button.classList.add('hidden');
+      $airplaneF.classList.remove('hidden');
+    }
+  }
+
   return $wrapper;
 }
 
-// Formats population for front side render
-function formatPopulation(number) {
-  if (number > 1000000000) {
-    return (Math.round(number / 100000000) / 10) + ' Billion People';
-  } else if (number > 100000000) {
-    return (Math.round(number / 1000000)) + ' Million People';
-  } else if (number > 1000000) {
-    return (Math.round(number / 100000) / 10) + ' Million People';
-  } else {
-    return '< 1 Million People';
+// Renders all countries from an array
+function renderArray(countryArray) {
+  for (let i = 0; i < countryArray.length; i++) {
+    $countryDeck.append(renderCountry(countryArray[i]));
   }
 }
 
-// Renders all countries from an array
-function renderAll(countryArray) {
-  for (let i = 0; i < countryArray.length; i++) {
-    $countryDeck.append(renderCountry(countryArray[i]));
+// Function that unrenders every country
+function unrenderAll() {
+  const $countryWrappers = document.querySelectorAll('div.country-wrapper');
+
+  $countryWrappers.forEach(function (element) {
+    element.remove();
+  });
+}
+
+function viewSwap(page) {
+  unrenderAll();
+  $search.value = '';
+  changeSearch = false;
+  $switchToBucket.classList.remove('white');
+  $switchToHome.classList.remove('white');
+  $subhead.classList.add('hidden');
+  $noEntries.classList.add('hidden');
+  data.page = page;
+
+  if (page === 'bucketList') {
+    changeSearch = true;
+    $subhead.classList.remove('hidden');
+    $switchToBucket.classList.add('white');
+
+    if (data.savedCountries.length < 1) {
+      $searchBar.classList.add('hidden');
+      $noEntries.classList.remove('hidden');
+    } else {
+      $noEntries.classList.add('hidden');
+      $searchBar.classList.remove('hidden');
+      sortAlphabetical(data.savedCountries);
+      renderArray(data.savedCountries);
+    }
+  }
+
+  if (page === 'home') {
+    $switchToHome.classList.add('white');
+    $searchBar.classList.remove('hidden');
+    sortAlphabetical(countries);
+    renderArray(countries);
   }
 }
 
@@ -162,34 +219,62 @@ function sortAlphabetical(countryArray) {
 function handleSearch(event) {
   unrenderAll();
 
-  for (let i = 0; i < countries.length; i++) {
-    if (countries[i].name.common.toLowerCase().includes(event.target.value.toLowerCase())) {
-      $countryDeck.append(renderCountry(countries[i]));
+  if (changeSearch === true) {
+    for (let i = 0; i < data.savedCountries.length; i++) {
+      if (data.savedCountries[i].name.common.toLowerCase().includes(event.target.value.toLowerCase())) {
+        $countryDeck.append(renderCountry(data.savedCountries[i]));
+      }
+    }
+  } else {
+    for (let i = 0; i < countries.length; i++) {
+      if (countries[i].name.common.toLowerCase().includes(event.target.value.toLowerCase())) {
+        $countryDeck.append(renderCountry(countries[i]));
+      }
     }
   }
 }
 
-// Function that unrenders every country
-function unrenderAll() {
-  const $countryWrappers = document.querySelectorAll('div.country-wrapper');
-
-  $countryWrappers.forEach(function (element) {
-    element.remove();
-  });
-}
-
 // Function that handles clicking events on cards
 function handleDeck(event) {
-  if (event.target.closest('.card') === null) {
+  const $countryClicked = event.target.closest('.card');
+  if ($countryClicked === null) {
     return;
   }
-  const $clickedCard = event.target.closest('.card');
-  $clickedCard.classList.toggle('is-flipped');
+  const $frontPlanePin = $countryClicked.querySelector('.country').querySelector('i');
+
+  if (event.target.matches('button')) {
+    event.target.classList.add('hidden');
+    $frontPlanePin.classList.remove('hidden');
+    data.savedCountries.push(getCountryFromCCA3($countryClicked.getAttribute('data-cca3')));
+  } else {
+    $countryClicked.classList.toggle('is-flipped');
+  }
+}
+
+// Formats population for front side render
+function formatPopulation(number) {
+  if (number > 1000000000) {
+    return (Math.round(number / 100000000) / 10) + ' Billion People';
+  } else if (number > 100000000) {
+    return (Math.round(number / 1000000)) + ' Million People';
+  } else if (number > 1000000) {
+    return (Math.round(number / 100000) / 10) + ' Million People';
+  } else {
+    return '< 1 Million People';
+  }
+}
+
+function getCountryFromCCA3(cca3) {
+  for (let i = 0; i < countries.length; i++) {
+    if (countries[i].cca3 === cca3) {
+      return countries[i];
+    }
+  }
 }
 
 // Event listeners
 $countryDeck.addEventListener('click', handleDeck);
-$search.addEventListener('input', handleSearch);
-
-// Run on startup
-getAllCountries();
+$searchBar.addEventListener('input', handleSearch);
+$switchToBucket.addEventListener('click', function () { viewSwap('bucketList'); });
+$switchToHome.addEventListener('click', function () { viewSwap('home'); });
+document.addEventListener('DOMContentLoaded', getAllCountries);
