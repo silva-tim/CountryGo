@@ -63,6 +63,10 @@ function renderCountry(country) {
   $populationF.textContent = formatPopulation(country.population);
   $countryF.append($populationF);
 
+  const $airplane = document.createElement('i');
+  $airplane.classList.add('fa-solid', 'fa-paper-plane', 'hidden', 'card-plane');
+  $countryF.append($airplane);
+
   // Back Side
   const $countryB = document.createElement('div');
   $countryB.classList.add('country', 'country-back');
@@ -140,6 +144,7 @@ function renderCountry(country) {
   for (let i = 0; i < data.savedCountries.length; i++) {
     if (data.savedCountries[i].cca3 === country.cca3) {
       $button.classList.add('hidden');
+      $airplane.classList.remove('hidden');
     }
   }
 
@@ -229,17 +234,18 @@ function handleSearch(event) {
 // Function that handles clicking events on cards
 function handleDeck(event) {
   const $countryClicked = event.target.closest('.card');
+  const $frontPlanePin = $countryClicked.querySelector('.country').querySelector('i');
   if ($countryClicked === null) {
     return;
   }
 
   if (event.target.matches('button')) {
     event.target.classList.add('hidden');
+    $frontPlanePin.classList.remove('hidden');
     data.savedCountries.push(getCountryFromCCA3($countryClicked.getAttribute('data-cca3')));
-    return;
+  } else {
+    $countryClicked.classList.toggle('is-flipped');
   }
-
-  $countryClicked.classList.toggle('is-flipped');
 }
 
 // Formats population for front side render
@@ -268,6 +274,4 @@ $countryDeck.addEventListener('click', handleDeck);
 $search.addEventListener('input', handleSearch);
 $switchToBucket.addEventListener('click', function () { viewSwap('bucketList'); });
 $switchToHome.addEventListener('click', function () { viewSwap('home'); });
-
-// Run on startup
-getAllCountries();
+document.addEventListener('DOMContentLoaded', getAllCountries());

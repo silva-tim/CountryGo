@@ -3,6 +3,8 @@ header {
 }
 
 .hidden {
+  --fa-display: none;
+
   display: none;
 }
 
@@ -32,6 +34,7 @@ h1 {
 
 p {
   text-align: center;
+  font-size: 0.8rem;
 }
 
 .top-bar {
@@ -123,6 +126,13 @@ h3 {
 .fa-language {
   color: #6fa2dd;
   font-size: 0.5rem;
+}
+
+.card-plane {
+  font-size: 0.6rem;
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
 }
 
 span {
