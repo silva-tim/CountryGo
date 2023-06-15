@@ -7,6 +7,7 @@ const $switchToBucket = document.querySelector('#plane');
 const $switchToHome = document.querySelector('#home');
 const $subhead = document.querySelector('#subhead');
 const $noEntries = document.querySelector('#no-entries');
+const $notesSaved = document.querySelector('#notes-saved');
 
 // Sends XHR and retrieves all independent countries
 function getAllCountries() {
@@ -245,7 +246,9 @@ function handleDeck(event) {
   if (event.target.matches('button')) {
     event.target.classList.add('hidden');
     $frontPlanePin.classList.remove('hidden');
-    data.savedCountries.push(getCountryFromCCA3($countryClicked.getAttribute('data-cca3')));
+    const newSave = getCountryFromCCA3($countryClicked.getAttribute('data-cca3'));
+    newSave.notes = '';
+    data.savedCountries.push(newSave);
   } else {
     $countryClicked.classList.toggle('is-flipped');
   }
@@ -277,4 +280,18 @@ $countryDeck.addEventListener('click', handleDeck);
 $searchBar.addEventListener('input', handleSearch);
 $switchToBucket.addEventListener('click', function () { viewSwap('bucketList'); });
 $switchToHome.addEventListener('click', function () { viewSwap('home'); });
-// document.addEventListener('DOMContentLoaded', getAllCountries);
+document.addEventListener('DOMContentLoaded', getAllCountries);
+
+// function renderNotes(cca3) {
+//   const countryNotes = getCountryFromCCA3(cca3);
+
+//   for (let i = 0; i < data.savedCountries.length; i++) {
+//     if (data.savedCountries[i] === cca3) {
+//       $notesSaved.textContent = da
+//     }
+//   }
+// }
+
+// }
+
+// function editNotes() {
