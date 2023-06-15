@@ -146,7 +146,7 @@ span {
   font-weight: bold;
 }
 
-button.button-card {
+button {
   font-size: 0.6rem;
   width: 100%;
   background-color: #c3e8bd;
@@ -156,7 +156,7 @@ button.button-card {
   bottom: 4px;
 }
 
-button.button-card:hover {
+button:hover {
   /* background-color: white; */
   border: 1px solid black;
 }
@@ -175,11 +175,38 @@ textarea#notes-input {
 h2.notes-heading {
   font-size: 0.8rem;
   padding-left: 10px 0;
+  padding-bottom: 10px;
   margin: 0;
 }
 
 i#edit-icon {
   font-size: 0.8rem;
+  padding-bottom: 10px;
+}
+
+.country-info-notes-page {
+  text-align: left;
+  font-size: 0.7rem;
+  padding-bottom: 0.8rem;
+}
+
+h4 {
+  font-size: 0.6rem;
+  font-weight: 100;
+  margin: 0;
+  padding-bottom: 1rem;
+}
+
+i.note-icons {
+  font-size: 1rem;
+  padding-right: 30px;
+}
+
+button#save-button {
+  position: static;
+  border: 1px solid black;
+  width: fit-content;
+  padding: 10px 30px;
 }
 
 /* Card Flip */
