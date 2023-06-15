@@ -1,7 +1,8 @@
 let countries = null;
 let changeSearch = false;
 const $countryDeck = document.querySelector('#country-deck');
-const $search = document.querySelector('#search-bar');
+const $searchBar = document.querySelector('#search-bar');
+const $search = document.querySelector('#search');
 const $switchToBucket = document.querySelector('#plane');
 const $switchToHome = document.querySelector('#home');
 const $subhead = document.querySelector('#subhead');
@@ -170,6 +171,7 @@ function unrenderAll() {
 
 function viewSwap(page) {
   unrenderAll();
+  $search.value = '';
   changeSearch = false;
   $switchToBucket.classList.remove('white');
   $switchToHome.classList.remove('white');
@@ -183,11 +185,11 @@ function viewSwap(page) {
     $switchToBucket.classList.add('white');
 
     if (data.savedCountries.length < 1) {
-      $search.classList.add('hidden');
+      $searchBar.classList.add('hidden');
       $noEntries.classList.remove('hidden');
     } else {
       $noEntries.classList.add('hidden');
-      $search.classList.remove('hidden');
+      $searchBar.classList.remove('hidden');
       sortAlphabetical(data.savedCountries);
       renderArray(data.savedCountries);
     }
@@ -195,7 +197,7 @@ function viewSwap(page) {
 
   if (page === 'home') {
     $switchToHome.classList.add('white');
-    $search.classList.remove('hidden');
+    $searchBar.classList.remove('hidden');
     sortAlphabetical(countries);
     renderArray(countries);
   }
@@ -235,10 +237,10 @@ function handleSearch(event) {
 // Function that handles clicking events on cards
 function handleDeck(event) {
   const $countryClicked = event.target.closest('.card');
-  const $frontPlanePin = $countryClicked.querySelector('.country').querySelector('i');
   if ($countryClicked === null) {
     return;
   }
+  const $frontPlanePin = $countryClicked.querySelector('.country').querySelector('i');
 
   if (event.target.matches('button')) {
     event.target.classList.add('hidden');
@@ -272,7 +274,7 @@ function getCountryFromCCA3(cca3) {
 
 // Event listeners
 $countryDeck.addEventListener('click', handleDeck);
-$search.addEventListener('input', handleSearch);
+$searchBar.addEventListener('input', handleSearch);
 $switchToBucket.addEventListener('click', function () { viewSwap('bucketList'); });
 $switchToHome.addEventListener('click', function () { viewSwap('home'); });
 document.addEventListener('DOMContentLoaded', getAllCountries());
