@@ -8,6 +8,7 @@ const $switchToHome = document.querySelector('#home');
 const $subhead = document.querySelector('#subhead');
 const $noEntries = document.querySelector('#no-entries');
 const $notesSaved = document.querySelector('#notes-saved');
+const $flagImgNotesPage = document.querySelector('#flag-img-notes-page');
 
 // Sends XHR and retrieves all independent countries
 function getAllCountries() {
@@ -282,15 +283,17 @@ $switchToBucket.addEventListener('click', function () { viewSwap('bucketList'); 
 $switchToHome.addEventListener('click', function () { viewSwap('home'); });
 document.addEventListener('DOMContentLoaded', getAllCountries);
 
-// function renderNotes(cca3) {
-//   const countryNotes = getCountryFromCCA3(cca3);
-
-//   for (let i = 0; i < data.savedCountries.length; i++) {
-//     if (data.savedCountries[i] === cca3) {
-//       $notesSaved.textContent = da
-//     }
-//   }
-// }
+function renderNotes(cca3) {
+  let savedCountry;
+  for (let i = 0; i < data.savedCountries.length; i++) {
+    if (data.savedCountries[i].cca3 === cca3) {
+      savedCountry = data.savedCountries[i];
+    }
+  }
+  $notesSaved.textContent = savedCountry.notes;
+  $flagImgNotesPage.src = savedCountry.flags.png;
+  $flagImgNotesPage.alt = savedCountry.flags.alt;
+}
 
 // }
 
