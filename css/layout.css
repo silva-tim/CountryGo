@@ -47,6 +47,29 @@
   width: 100%;
 }
 
+.column-one-third {
+  flex-basis: 100%;
+  width: 100%;
+}
+
+#notes-page {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0.6rem;
+}
+
+.column-two-third {
+  flex-basis: 100%;
+}
+
+.column-one-third-always {
+  flex-basis: calc(100% / 3);
+}
+
+.column-two-third-always {
+  flex-basis: calc((100% / 3) * 2);
+}
+
 @media only screen and (min-width: 620px) {
   h1 {
     padding-left: 0.6rem;
@@ -64,6 +87,14 @@
 
   #search {
     max-width: 630px;
+  }
+
+  .column-one-third {
+    flex-basis: calc(100% / 3);
+  }
+
+  .column-two-third {
+    flex-basis: calc((100% / 3) * 2);
   }
 }
 

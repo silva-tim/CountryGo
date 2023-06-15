@@ -138,6 +138,7 @@ function renderCountry(country) {
   const $buttonRow = document.createElement('div');
   $buttonRow.classList.add('row', 'justifycenter');
   const $button = document.createElement('button');
+  $button.classList.add('button-card');
   $button.textContent = 'Add to Bucket List';
   $countryB.append($buttonRow);
   $buttonRow.append($button);
@@ -277,4 +278,4 @@ $countryDeck.addEventListener('click', handleDeck);
 $searchBar.addEventListener('input', handleSearch);
 $switchToBucket.addEventListener('click', function () { viewSwap('bucketList'); });
 $switchToHome.addEventListener('click', function () { viewSwap('home'); });
-document.addEventListener('DOMContentLoaded', getAllCountries);
+// document.addEventListener('DOMContentLoaded', getAllCountries);

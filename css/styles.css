@@ -140,7 +140,7 @@ span {
   font-weight: bold;
 }
 
-button {
+button.button-card {
   font-size: 0.6rem;
   width: 100%;
   background-color: #c3e8bd;
@@ -150,9 +150,29 @@ button {
   bottom: 4px;
 }
 
-button:hover {
+button.button-card:hover {
   /* background-color: white; */
   border: 1px solid black;
+}
+
+.flag-notes-page {
+  padding: 10px;
+}
+
+#notes-input {
+  resize: none;
+  width: 100%;
+  font-size: 0.6rem;
+}
+
+.notes-heading {
+  font-size: 0.8rem;
+  padding-left: 10px 0;
+  margin: 0;
+}
+
+#edit-icon {
+  font-size: 0.8rem;
 }
 
 /* Card Flip */
