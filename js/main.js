@@ -277,4 +277,4 @@ $countryDeck.addEventListener('click', handleDeck);
 $searchBar.addEventListener('input', handleSearch);
 $switchToBucket.addEventListener('click', function () { viewSwap('bucketList'); });
 $switchToHome.addEventListener('click', function () { viewSwap('home'); });
-document.addEventListener('DOMContentLoaded', getAllCountries());
+document.addEventListener('DOMContentLoaded', getAllCountries);
