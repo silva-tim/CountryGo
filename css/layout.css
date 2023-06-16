@@ -97,7 +97,7 @@
     flex-basis: calc((100% / 3) * 2);
   }
 
-  .flag-notes-page {
+  #flag-notes-page {
     padding-right: 10px;
   }
 }

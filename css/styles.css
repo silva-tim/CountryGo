@@ -180,7 +180,7 @@ textarea#notes-input {
   font-size: 0.6rem;
 }
 
-h2.notes-heading {
+h2#notes-heading {
   font-size: 0.8rem;
   padding-left: 10px 0;
   padding-bottom: 10px;
