@@ -45,7 +45,7 @@ function renderCountry(country) {
   $card.setAttribute('data-cca3', country.cca3);
   $wrapper.append($card);
 
-  // Front Side
+  /* Front Side Rendering of Card */
   const $countryF = document.createElement('div');
   $countryF.classList.add('country', 'country-front');
   $card.append($countryF);
@@ -83,7 +83,7 @@ function renderCountry(country) {
   $airplaneF.classList.add('fa-solid', 'fa-paper-plane', 'hidden', 'card-plane');
   $countryF.append($airplaneF);
 
-  // Back Side
+  /* Back Side Rendering of Card */
   const $countryB = document.createElement('div');
   $countryB.classList.add('country', 'country-back');
   $card.append($countryB);
@@ -134,7 +134,6 @@ function renderCountry(country) {
   const arrayLanguage = Object.values(country.languages);
   const $language = document.createElement('h3');
   $language.textContent = ' ';
-  // Shortens number of languages to 4 or less
   for (let i = 0; i < arrayLanguage.length && i < 4; i++) {
     $language.textContent += Object.values(arrayLanguage)[i];
     if (i !== 3 && i !== arrayLanguage.length - 1) {
@@ -163,13 +162,11 @@ function renderCountry(country) {
   $buttonNotes.classList.add('hidden');
   $buttonRow.append($buttonNotes);
 
-  // Hides button and adds plane icon if country is already saved
-  for (let i = 0; i < data.savedCountries.length; i++) {
-    if (data.savedCountries[i].cca3 === country.cca3) {
-      $buttonAdd.classList.add('hidden');
-      $buttonNotes.classList.remove('hidden');
-      $airplaneF.classList.remove('hidden');
-    }
+  // Switches button and adds plane icon if country is already saved
+  if (findSavedCountry(country.cca3) !== null) {
+    $buttonAdd.classList.add('hidden');
+    $buttonNotes.classList.remove('hidden');
+    $airplaneF.classList.remove('hidden');
   }
 
   return $wrapper;
@@ -191,20 +188,52 @@ function unrenderAll() {
   });
 }
 
+function renderNote(savedCountry) {
+  if (noteAlreadyRendered === true) {
+    unrenderNote();
+  }
+
+  if (!savedCountry.notes) {
+    savedCountry.notes = 'No notes saved yet!';
+  }
+  $notesNotesSaved.textContent = savedCountry.notes;
+  $notesHeading.textContent = savedCountry.name.common;
+  $notesFlagImage.src = savedCountry.flags.png;
+  $notesFlagImage.alt = savedCountry.flags.alt;
+  $notesCapital.append(savedCountry.capital[0]);
+  $notesRegion.append(savedCountry.region);
+  $notesPopulation.append(savedCountry.population.toLocaleString());
+  $notesSubregion.append(savedCountry.subregion);
+  $notesCurrency.append(Object.keys(savedCountry.currencies));
+  $notesLanguage.append(Object.values(savedCountry.languages));
+  noteAlreadyRendered = true;
+  data.currentCountry = savedCountry;
+
+  viewSwap('note');
+}
+
+function unrenderNote() {
+  $notesCapital.lastChild.remove();
+  $notesRegion.lastChild.remove();
+  $notesPopulation.lastChild.remove();
+  $notesSubregion.lastChild.remove();
+  $notesCurrency.lastChild.remove();
+  $notesLanguage.lastChild.remove();
+}
+
+// Function that handles all view swapping
 function viewSwap(page) {
   unrenderAll();
   cancelEdit();
-  $subhead.textContent = 'Bucket List';
   $search.value = '';
   changeSearch = false;
   $switchToBucket.classList.remove('white');
   $switchToHome.classList.remove('white');
-  $subheadDiv.classList.add('hidden');
-  $noEntries.classList.add('hidden');
   $notesPageContainer.classList.add('hidden');
   data.page = page;
 
   if (page === 'bucketList') {
+    $subhead.textContent = 'Bucket List';
     changeSearch = true;
     $subheadDiv.classList.remove('hidden');
     $switchToBucket.classList.add('white');
@@ -221,14 +250,15 @@ function viewSwap(page) {
   }
 
   if (page === 'note') {
-    $subheadDiv.classList.remove('hidden');
     $subhead.textContent = 'Travel Notes';
+    $subheadDiv.classList.remove('hidden');
     $searchBar.classList.add('hidden');
     $notesPageContainer.classList.remove('hidden');
     data.page = 'bucketList';
   }
 
   if (page === 'home') {
+    $subheadDiv.classList.add('hidden');
     $switchToHome.classList.add('white');
     $searchBar.classList.remove('hidden');
     sortAlphabetical(countries);
@@ -286,77 +316,10 @@ function handleDeck(event) {
 
     data.savedCountries.push(countryClickedObject);
   } else if (event.target.getAttribute('id') === 'button-notes') {
-    for (let i = 0; i < data.savedCountries.length; i++) {
-      if (data.savedCountries[i].cca3 === countryClickedObject.cca3) {
-        renderNote(data.savedCountries[i]);
-      }
-    }
+    renderNote(findSavedCountry(countryClickedObject.cca3));
   } else {
     $countryClickedElement.classList.toggle('is-flipped');
   }
-}
-
-// Formats population for front side render
-function formatPopulation(number) {
-  if (number > 1000000000) {
-    return (Math.round(number / 100000000) / 10) + ' Billion People';
-  } else if (number > 100000000) {
-    return (Math.round(number / 1000000)) + ' Million People';
-  } else if (number > 1000000) {
-    return (Math.round(number / 100000) / 10) + ' Million People';
-  } else {
-    return '< 1 Million People';
-  }
-}
-
-function getCountryFromCCA3(cca3) {
-  for (let i = 0; i < countries.length; i++) {
-    if (countries[i].cca3 === cca3) {
-      return countries[i];
-    }
-  }
-}
-
-// Event listeners
-$countryDeck.addEventListener('click', handleDeck);
-$searchBar.addEventListener('input', handleSearch);
-$switchToBucket.addEventListener('click', function () { viewSwap('bucketList'); });
-$switchToHome.addEventListener('click', function () { viewSwap('home'); });
-$notesEditIcon.addEventListener('click', handleEdit);
-$notesForm.addEventListener('submit', handleSave);
-document.addEventListener('DOMContentLoaded', getAllCountries);
-
-function renderNote(savedCountry) {
-  if (noteAlreadyRendered === true) {
-    unrenderNote();
-  }
-
-  if (!savedCountry.notes) {
-    savedCountry.notes = 'No notes saved yet!';
-  }
-  $notesNotesSaved.textContent = savedCountry.notes;
-  $notesHeading.textContent = savedCountry.name.common;
-  $notesFlagImage.src = savedCountry.flags.png;
-  $notesFlagImage.alt = savedCountry.flags.alt;
-  $notesCapital.append(savedCountry.capital[0]);
-  $notesRegion.append(savedCountry.region);
-  $notesPopulation.append(savedCountry.population.toLocaleString());
-  $notesSubregion.append(savedCountry.subregion);
-  $notesCurrency.append(Object.keys(savedCountry.currencies));
-  $notesLanguage.append(Object.values(savedCountry.languages));
-  noteAlreadyRendered = true;
-  data.currentCountry = savedCountry;
-
-  viewSwap('note');
-}
-
-function unrenderNote() {
-  $notesCapital.lastChild.remove();
-  $notesRegion.lastChild.remove();
-  $notesPopulation.lastChild.remove();
-  $notesSubregion.lastChild.remove();
-  $notesCurrency.lastChild.remove();
-  $notesLanguage.lastChild.remove();
 }
 
 function handleEdit(event) {
@@ -396,4 +359,43 @@ function cancelEdit() {
   $notesForm.classList.add('hidden');
   $notesNotesSaved.classList.remove('hidden');
   $notesEditIcon.classList.remove('hidden');
+}
+
+// Formats population for front side render
+function formatPopulation(number) {
+  if (number > 1000000000) {
+    return (Math.round(number / 100000000) / 10) + ' Billion People';
+  } else if (number > 100000000) {
+    return (Math.round(number / 1000000)) + ' Million People';
+  } else if (number > 1000000) {
+    return (Math.round(number / 100000) / 10) + ' Million People';
+  } else {
+    return '< 1 Million People';
+  }
+}
+
+function getCountryFromCCA3(cca3) {
+  for (let i = 0; i < countries.length; i++) {
+    if (countries[i].cca3 === cca3) {
+      return countries[i];
+    }
+  }
+}
+
+// Event listeners
+$countryDeck.addEventListener('click', handleDeck);
+$searchBar.addEventListener('input', handleSearch);
+$switchToBucket.addEventListener('click', function () { viewSwap('bucketList'); });
+$switchToHome.addEventListener('click', function () { viewSwap('home'); });
+$notesEditIcon.addEventListener('click', handleEdit);
+$notesForm.addEventListener('submit', handleSave);
+document.addEventListener('DOMContentLoaded', getAllCountries);
+
+function findSavedCountry(cca3) {
+  for (let i = 0; i < data.savedCountries.length; i++) {
+    if (data.savedCountries[i].cca3 === cca3) {
+      return data.savedCountries[i];
+    }
+  }
+  return null;
 }
