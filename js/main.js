@@ -5,10 +5,16 @@ const $searchBar = document.querySelector('#search-bar');
 const $search = document.querySelector('#search');
 const $switchToBucket = document.querySelector('#plane');
 const $switchToHome = document.querySelector('#home');
-const $subhead = document.querySelector('#subhead');
+const $subhead = document.querySelector('#subhead-div');
 const $noEntries = document.querySelector('#no-entries');
 const $notesSaved = document.querySelector('#notes-saved');
 const $flagImgNotesPage = document.querySelector('#flag-img-notes-page');
+const $capitalNotesPage = document.querySelector('#notes-capital');
+const $regionNotesPage = document.querySelector('#notes-region');
+const $populationNotesPage = document.querySelector('#notes-population');
+const $subregionNotesPage = document.querySelector('#notes-subregion');
+const $currencyNotesPage = document.querySelector('#notes-currency');
+const $languageNotesPage = document.querySelector('#notes-language');
 
 // Sends XHR and retrieves all independent countries
 function getAllCountries() {
@@ -293,6 +299,12 @@ function renderNotes(cca3) {
   $notesSaved.textContent = savedCountry.notes;
   $flagImgNotesPage.src = savedCountry.flags.png;
   $flagImgNotesPage.alt = savedCountry.flags.alt;
+  $capitalNotesPage.append(savedCountry.capital[0]);
+  $regionNotesPage.append(savedCountry.region);
+  $populationNotesPage.append(savedCountry.population.toLocaleString());
+  $subregionNotesPage.append(savedCountry.subregion);
+  $currencyNotesPage.append(Object.keys(savedCountry.currencies));
+  $languageNotesPage.append(Object.values(savedCountry.languages));
 }
 
 // }
