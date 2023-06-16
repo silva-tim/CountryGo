@@ -22,7 +22,6 @@ const $notesLanguage = document.querySelector('#notes-language');
 const $notesEditIcon = document.querySelector('#notes-edit-icon');
 const $notesInput = document.querySelector('#notes-input');
 const $notesForm = document.querySelector('#notes-form');
-const $notesSaveButton = document.querySelector('#notes-save-button');
 
 // Sends XHR and retrieves all independent countries
 function getAllCountries() {
@@ -194,6 +193,8 @@ function unrenderAll() {
 
 function viewSwap(page) {
   unrenderAll();
+  cancelEdit();
+  $subhead.textContent = 'Bucket List';
   $search.value = '';
   changeSearch = false;
   $switchToBucket.classList.remove('white');
@@ -322,7 +323,7 @@ $searchBar.addEventListener('input', handleSearch);
 $switchToBucket.addEventListener('click', function () { viewSwap('bucketList'); });
 $switchToHome.addEventListener('click', function () { viewSwap('home'); });
 $notesEditIcon.addEventListener('click', handleEdit);
-$notesSaveButton.addEventListener('click', handleSave);
+$notesForm.addEventListener('submit', handleSave);
 document.addEventListener('DOMContentLoaded', getAllCountries);
 
 function renderNote(savedCountry) {
@@ -330,12 +331,10 @@ function renderNote(savedCountry) {
     unrenderNote();
   }
 
-  if (savedCountry.notes === undefined) {
-    $notesNotesSaved.textContent = 'No notes saved yet!';
-  } else {
-    $notesNotesSaved.textContent = savedCountry.notes;
+  if (!savedCountry.notes) {
+    savedCountry.notes = 'No notes saved yet!';
   }
-
+  $notesNotesSaved.textContent = savedCountry.notes;
   $notesHeading.textContent = savedCountry.name.common;
   $notesFlagImage.src = savedCountry.flags.png;
   $notesFlagImage.alt = savedCountry.flags.alt;
@@ -363,9 +362,9 @@ function unrenderNote() {
 function handleEdit(event) {
   if ($notesNotesSaved.textContent === 'No notes saved yet!') {
     $notesNotesSaved.textContent = '';
-  } else {
-    $notesInput.textContent = $notesNotesSaved.textContent;
   }
+
+  $notesInput.textContent = $notesNotesSaved.textContent;
   $notesForm.classList.remove('hidden');
   $notesNotesSaved.classList.add('hidden');
   $notesEditIcon.classList.add('hidden');
@@ -383,10 +382,18 @@ function handleSave(event) {
   $notesNotesSaved.classList.remove('hidden');
   $notesEditIcon.classList.remove('hidden');
   data.currentCountry.notes = $notesNotesSaved.textContent;
-
   for (let i = 0; i < data.savedCountries.length; i++) {
     if (data.savedCountries[i].cca3 === data.currentCountry.cca3) {
       data.savedCountries[i] = data.currentCountry;
     }
   }
+
+  $notesForm.reset();
+}
+
+function cancelEdit() {
+  $notesForm.reset();
+  $notesForm.classList.add('hidden');
+  $notesNotesSaved.classList.remove('hidden');
+  $notesEditIcon.classList.remove('hidden');
 }
