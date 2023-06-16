@@ -1,7 +1,8 @@
 /* exported data */
 let data = {
   savedCountries: [],
-  page: 'home'
+  page: 'home',
+  currentCountry: undefined
 };
 
 window.addEventListener('beforeunload', function (event) {

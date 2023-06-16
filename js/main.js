@@ -19,6 +19,10 @@ const $notesPopulation = document.querySelector('#notes-population');
 const $notesSubregion = document.querySelector('#notes-subregion');
 const $notesCurrency = document.querySelector('#notes-currency');
 const $notesLanguage = document.querySelector('#notes-language');
+const $notesEditIcon = document.querySelector('#notes-edit-icon');
+const $notesInput = document.querySelector('#notes-input');
+const $notesForm = document.querySelector('#notes-form');
+const $notesSaveButton = document.querySelector('#notes-save-button');
 
 // Sends XHR and retrieves all independent countries
 function getAllCountries() {
@@ -281,7 +285,11 @@ function handleDeck(event) {
 
     data.savedCountries.push(countryClickedObject);
   } else if (event.target.getAttribute('id') === 'button-notes') {
-    renderNote(countryClickedObject);
+    for (let i = 0; i < data.savedCountries.length; i++) {
+      if (data.savedCountries[i].cca3 === countryClickedObject.cca3) {
+        renderNote(data.savedCountries[i]);
+      }
+    }
   } else {
     $countryClickedElement.classList.toggle('is-flipped');
   }
@@ -313,6 +321,8 @@ $countryDeck.addEventListener('click', handleDeck);
 $searchBar.addEventListener('input', handleSearch);
 $switchToBucket.addEventListener('click', function () { viewSwap('bucketList'); });
 $switchToHome.addEventListener('click', function () { viewSwap('home'); });
+$notesEditIcon.addEventListener('click', handleEdit);
+$notesSaveButton.addEventListener('click', handleSave);
 document.addEventListener('DOMContentLoaded', getAllCountries);
 
 function renderNote(savedCountry) {
@@ -336,6 +346,7 @@ function renderNote(savedCountry) {
   $notesCurrency.append(Object.keys(savedCountry.currencies));
   $notesLanguage.append(Object.values(savedCountry.languages));
   noteAlreadyRendered = true;
+  data.currentCountry = savedCountry;
 
   viewSwap('note');
 }
@@ -347,4 +358,35 @@ function unrenderNote() {
   $notesSubregion.lastChild.remove();
   $notesCurrency.lastChild.remove();
   $notesLanguage.lastChild.remove();
+}
+
+function handleEdit(event) {
+  if ($notesNotesSaved.textContent === 'No notes saved yet!') {
+    $notesNotesSaved.textContent = '';
+  } else {
+    $notesInput.textContent = $notesNotesSaved.textContent;
+  }
+  $notesForm.classList.remove('hidden');
+  $notesNotesSaved.classList.add('hidden');
+  $notesEditIcon.classList.add('hidden');
+}
+
+function handleSave(event) {
+  event.preventDefault();
+
+  if ($notesInput.value === '') {
+    $notesNotesSaved.textContent = 'No notes saved yet!';
+  } else {
+    $notesNotesSaved.textContent = $notesInput.value;
+  }
+  $notesForm.classList.add('hidden');
+  $notesNotesSaved.classList.remove('hidden');
+  $notesEditIcon.classList.remove('hidden');
+  data.currentCountry.notes = $notesNotesSaved.textContent;
+
+  for (let i = 0; i < data.savedCountries.length; i++) {
+    if (data.savedCountries[i].cca3 === data.currentCountry.cca3) {
+      data.savedCountries[i] = data.currentCountry;
+    }
+  }
 }

@@ -187,9 +187,14 @@ h2#notes-heading {
   margin: 0;
 }
 
-i#edit-icon {
+i#notes-edit-icon {
   font-size: 0.8rem;
   padding-bottom: 10px;
+  cursor: pointer;
+}
+
+i#notes-edit-icon:hover {
+  color: #8eb897;
 }
 
 .country-info-notes-page {
@@ -210,11 +215,22 @@ i.note-icons {
   padding-right: 15px;
 }
 
-button#save-button {
+button#notes-save-button {
+  background-color: #c3e8bd;
   position: static;
   border: 1px solid black;
   width: fit-content;
   padding: 10px 30px;
+}
+
+button#notes-save-button:hover {
+  background-color: white;
+}
+
+p#notes-saved {
+  font-size: 0.6rem;
+  text-align: left;
+  margin: 0;
 }
 
 /* Card Flip */
