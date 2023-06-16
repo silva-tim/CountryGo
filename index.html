@@ -45,36 +45,38 @@
       </div>
       <div id="country-deck">
       </div>
-      <div id="notes-page" class="">
-        <div class="column-one-third">
-          <div class="flag-notes-page">
-            <img id="flag-img-notes-page" src="images/placeholder.jpeg" alt="Placeholder">
-          </div>
-          <h3 class="country-info-notes-page" id="notes-capital"><span class="country-info-notes-page">Capital: </span></h3>
-          <h3 class="country-info-notes-page" id="notes-region"><span class="country-info-notes-page">Region: </span></h3>
-          <h3 class="country-info-notes-page" id="notes-population"><span class="country-info-notes-page">Population: </span></h3>
-          <h4 id="notes-subregion"><i class="fa-solid fa-map-pin note-icons"></i></h4>
-          <h4 id="notes-currency"><i class="fa-solid fa-money-bill note-icons"></i></h4>
-          <h4 id="notes-language"><i class="fa-solid fa-language note-icons"></i></h4>
-        </div>
-        <div class="column-two-third">
-          <div class="row">
-            <div class="column-two-third-always">
-              <h2 class="notes-heading">Travel Notes</h2>
+      <div id="notes-page-container" class="hidden">
+        <div id="notes-page">
+          <div class="column-one-third">
+            <div class="flag-notes-page">
+              <img id="flag-img-notes-page" src="images/placeholder.jpeg" alt="Placeholder">
             </div>
-            <div class="column-one-third-always justifyright aligncenter">
-              <i class="fa-solid fa-pen-to-square" id="edit-icon"></i>
-            </div>
+            <h3 class="country-info-notes-page" id="notes-capital"><span class="country-info-notes-page">Capital: </span></h3>
+            <h3 class="country-info-notes-page" id="notes-region"><span class="country-info-notes-page">Region: </span></h3>
+            <h3 class="country-info-notes-page" id="notes-population"><span class="country-info-notes-page">Population: </span></h3>
+            <h4 id="notes-subregion"><i class="fa-solid fa-map-pin note-icons"></i></h4>
+            <h4 id="notes-currency"><i class="fa-solid fa-money-bill note-icons"></i></h4>
+            <h4 id="notes-language"><i class="fa-solid fa-language note-icons"></i></h4>
           </div>
-          <div class="row">
-            <div class="column-full">
-              <form class="hidden">
-                <textarea name="notes" id="notes-input" rows="20"></textarea>
-                <div class="row justifyright">
-                  <button id="save-button">Save</button>
-                </div>
-              </form>
-              <p id="notes-saved" class=""></p>
+          <div class="column-two-third">
+            <div class="row">
+              <div class="column-two-third-always">
+                <h2 class="notes-heading">Travel Notes</h2>
+              </div>
+              <div class="column-one-third-always justifyright aligncenter">
+                <i class="fa-solid fa-pen-to-square" id="edit-icon"></i>
+              </div>
+            </div>
+            <div class="row">
+              <div class="column-full">
+                <form class="hidden">
+                  <textarea name="notes" id="notes-input" rows="20"></textarea>
+                  <div class="row justifyright">
+                    <button id="save-button">Save</button>
+                  </div>
+                </form>
+                <p id="notes-saved" class=""></p>
+              </div>
             </div>
           </div>
         </div>

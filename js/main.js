@@ -7,6 +7,7 @@ const $switchToBucket = document.querySelector('#plane');
 const $switchToHome = document.querySelector('#home');
 const $subhead = document.querySelector('#subhead-div');
 const $noEntries = document.querySelector('#no-entries');
+const $notesPageContainer = document.querySelector('#notes-page-container');
 const $notesSaved = document.querySelector('#notes-saved');
 const $flagImgNotesPage = document.querySelector('#flag-img-notes-page');
 const $capitalNotesPage = document.querySelector('#notes-capital');
@@ -145,15 +146,22 @@ function renderCountry(country) {
 
   const $buttonRow = document.createElement('div');
   $buttonRow.classList.add('row', 'justifycenter');
-  const $button = document.createElement('button');
-  $button.textContent = 'Add to Bucket List';
+  const $buttonAdd = document.createElement('button');
+  $buttonAdd.setAttribute('id', 'button-add');
+  $buttonAdd.textContent = 'Add to Bucket List';
   $countryB.append($buttonRow);
-  $buttonRow.append($button);
+  $buttonRow.append($buttonAdd);
+  const $buttonNotes = document.createElement('button');
+  $buttonNotes.setAttribute('id', 'button-notes');
+  $buttonNotes.textContent = 'Notes';
+  $buttonNotes.classList.add('hidden');
+  $buttonRow.append($buttonNotes);
 
   // Hides button and adds plane icon if country is already saved
   for (let i = 0; i < data.savedCountries.length; i++) {
     if (data.savedCountries[i].cca3 === country.cca3) {
-      $button.classList.add('hidden');
+      $buttonAdd.classList.add('hidden');
+      $buttonNotes.classList.remove('hidden');
       $airplaneF.classList.remove('hidden');
     }
   }
@@ -248,14 +256,23 @@ function handleDeck(event) {
   if ($countryClicked === null) {
     return;
   }
-  const $frontPlanePin = $countryClicked.querySelector('.country').querySelector('i');
 
   if (event.target.matches('button')) {
-    event.target.classList.add('hidden');
-    $frontPlanePin.classList.remove('hidden');
-    const newSave = getCountryFromCCA3($countryClicked.getAttribute('data-cca3'));
-    newSave.notes = '';
-    data.savedCountries.push(newSave);
+    if (event.target.getAttribute('id') === 'button-add') {
+      const $frontPlanePin = $countryClicked.querySelector('.country').querySelector('i');
+      const $backButtonAdd = $countryClicked.querySelector('#button-add');
+      const $backButtonNotes = $countryClicked.querySelector('#button-notes');
+
+      $backButtonAdd.classList.add('hidden');
+      $backButtonNotes.classList.remove('hidden');
+      $frontPlanePin.classList.remove('hidden');
+
+      const newSave = getCountryFromCCA3($countryClicked.getAttribute('data-cca3'));
+      newSave.notes = '';
+      data.savedCountries.push(newSave);
+    } else {
+      viewSwap('notes');
+    }
   } else {
     $countryClicked.classList.toggle('is-flipped');
   }
@@ -296,7 +313,11 @@ function renderNotes(cca3) {
       savedCountry = data.savedCountries[i];
     }
   }
-  $notesSaved.textContent = savedCountry.notes;
+  if (savedCountry.notes === '') {
+    $notesSaved.textContent = 'No notes, click pencil to add notes.';
+  } else {
+    $notesSaved.textContent = savedCountry.notes;
+  }
   $flagImgNotesPage.src = savedCountry.flags.png;
   $flagImgNotesPage.alt = savedCountry.flags.alt;
   $capitalNotesPage.append(savedCountry.capital[0]);
@@ -305,8 +326,6 @@ function renderNotes(cca3) {
   $subregionNotesPage.append(savedCountry.subregion);
   $currencyNotesPage.append(Object.keys(savedCountry.currencies));
   $languageNotesPage.append(Object.values(savedCountry.languages));
+
+  $notesPageContainer.classList.remove('hidden');
 }
-
-// }
-
-// function editNotes() {
