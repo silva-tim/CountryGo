@@ -7,15 +7,6 @@ const $switchToBucket = document.querySelector('#plane');
 const $switchToHome = document.querySelector('#home');
 const $subhead = document.querySelector('#subhead-div');
 const $noEntries = document.querySelector('#no-entries');
-const $notesPageContainer = document.querySelector('#notes-page-container');
-const $notesSaved = document.querySelector('#notes-saved');
-const $flagImgNotesPage = document.querySelector('#flag-img-notes-page');
-const $capitalNotesPage = document.querySelector('#notes-capital');
-const $regionNotesPage = document.querySelector('#notes-region');
-const $populationNotesPage = document.querySelector('#notes-population');
-const $subregionNotesPage = document.querySelector('#notes-subregion');
-const $currencyNotesPage = document.querySelector('#notes-currency');
-const $languageNotesPage = document.querySelector('#notes-language');
 
 // Sends XHR and retrieves all independent countries
 function getAllCountries() {
@@ -252,29 +243,24 @@ function handleSearch(event) {
 
 // Function that handles clicking events on cards
 function handleDeck(event) {
-  const $countryClicked = event.target.closest('.card');
-  if ($countryClicked === null) {
+  const $countryClickedElement = event.target.closest('.card');
+  if ($countryClickedElement === null) {
     return;
   }
 
-  if (event.target.matches('button')) {
-    if (event.target.getAttribute('id') === 'button-add') {
-      const $frontPlanePin = $countryClicked.querySelector('.country').querySelector('i');
-      const $backButtonAdd = $countryClicked.querySelector('#button-add');
-      const $backButtonNotes = $countryClicked.querySelector('#button-notes');
+  if (event.target.getAttribute('id') === 'button-add') {
+    const $frontPlanePin = $countryClickedElement.querySelector('.country-front').querySelector('i');
+    const $backButtonAdd = $countryClickedElement.querySelector('#button-add');
+    const $backButtonNotes = $countryClickedElement.querySelector('#button-notes');
 
-      $backButtonAdd.classList.add('hidden');
-      $backButtonNotes.classList.remove('hidden');
-      $frontPlanePin.classList.remove('hidden');
+    $backButtonAdd.classList.add('hidden');
+    $backButtonNotes.classList.remove('hidden');
+    $frontPlanePin.classList.remove('hidden');
 
-      const newSave = getCountryFromCCA3($countryClicked.getAttribute('data-cca3'));
-      newSave.notes = '';
-      data.savedCountries.push(newSave);
-    } else {
-      viewSwap('notes');
-    }
+  } else if (event.target.getAttribute('id') === 'button-notes') {
+
   } else {
-    $countryClicked.classList.toggle('is-flipped');
+    $countryClickedElement.classList.toggle('is-flipped');
   }
 }
 
@@ -305,27 +291,3 @@ $searchBar.addEventListener('input', handleSearch);
 $switchToBucket.addEventListener('click', function () { viewSwap('bucketList'); });
 $switchToHome.addEventListener('click', function () { viewSwap('home'); });
 document.addEventListener('DOMContentLoaded', getAllCountries);
-
-function renderNotes(cca3) {
-  let savedCountry;
-  for (let i = 0; i < data.savedCountries.length; i++) {
-    if (data.savedCountries[i].cca3 === cca3) {
-      savedCountry = data.savedCountries[i];
-    }
-  }
-  if (savedCountry.notes === '') {
-    $notesSaved.textContent = 'No notes, click pencil to add notes.';
-  } else {
-    $notesSaved.textContent = savedCountry.notes;
-  }
-  $flagImgNotesPage.src = savedCountry.flags.png;
-  $flagImgNotesPage.alt = savedCountry.flags.alt;
-  $capitalNotesPage.append(savedCountry.capital[0]);
-  $regionNotesPage.append(savedCountry.region);
-  $populationNotesPage.append(savedCountry.population.toLocaleString());
-  $subregionNotesPage.append(savedCountry.subregion);
-  $currencyNotesPage.append(Object.keys(savedCountry.currencies));
-  $languageNotesPage.append(Object.values(savedCountry.languages));
-
-  $notesPageContainer.classList.remove('hidden');
-}
