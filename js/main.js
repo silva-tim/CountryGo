@@ -225,6 +225,7 @@ function unrenderNote() {
 function viewSwap(page) {
   unrenderAll();
   cancelEdit();
+  $noEntries.classList.add('hidden');
   $search.value = '';
   changeSearch = false;
   $switchToBucket.classList.remove('white');
