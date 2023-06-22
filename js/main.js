@@ -383,15 +383,6 @@ function getCountryFromCCA3(cca3) {
   }
 }
 
-// Event listeners
-$countryDeck.addEventListener('click', handleDeck);
-$searchBar.addEventListener('input', handleSearch);
-$switchToBucket.addEventListener('click', function () { viewSwap('bucketList'); });
-$switchToHome.addEventListener('click', function () { viewSwap('home'); });
-$notesEditIcon.addEventListener('click', handleEdit);
-$notesForm.addEventListener('submit', handleSave);
-document.addEventListener('DOMContentLoaded', getAllCountries);
-
 function findSavedCountry(cca3) {
   for (let i = 0; i < data.savedCountries.length; i++) {
     if (data.savedCountries[i].cca3 === cca3) {
@@ -400,3 +391,12 @@ function findSavedCountry(cca3) {
   }
   return null;
 }
+
+// Event listeners
+$countryDeck.addEventListener('click', handleDeck);
+$searchBar.addEventListener('input', handleSearch);
+$switchToBucket.addEventListener('click', function () { viewSwap('bucketList'); });
+$switchToHome.addEventListener('click', function () { viewSwap('home'); });
+$notesEditIcon.addEventListener('click', handleEdit);
+$notesForm.addEventListener('submit', handleSave);
+document.addEventListener('DOMContentLoaded', getAllCountries);
