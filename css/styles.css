@@ -1,13 +1,39 @@
+/* Heading */
 header {
   background-color: #8eb897;
 }
 
-body {
-  background-color: #f3f3f3;
+i.top-bar {
+  font-size: 0.9rem;
+  filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.511));
+  padding-right: 0.6rem;
 }
 
-#subhead {
+i.top-bar:hover {
+  cursor: pointer;
+  color: white;
+}
+
+i.white {
+  color: white;
+}
+
+/* Subhead */
+div#subhead-div {
   background-color: #c3e8bd;
+}
+
+h2#subhead {
+  margin: 0;
+  padding-top: 10px;
+  text-align: center;
+  font-family: Merriweather, sans-serif;
+  font-size: 0.9rem;
+}
+
+/* Universal */
+body {
+  background-color: #f3f3f3;
 }
 
 .hidden {
@@ -20,39 +46,18 @@ img {
   width: 100%;
 }
 
-h2#bucketlist-heading {
-  margin: 0;
-  padding-top: 10px;
-  text-align: center;
-  font-family: Merriweather, sans-serif;
-  font-size: 0.9rem;
-}
-
 h1 {
   font-family: Merriweather, sans-serif;
 }
 
+/* Empty Bucket List Text */
 p {
   text-align: center;
   font-size: 0.8rem;
 }
 
-.top-bar {
-  font-size: 0.9rem;
-  filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.511));
-  padding-right: 0.6rem;
-}
-
-.top-bar:hover {
-  cursor: pointer;
-  color: white;
-}
-
-.white {
-  color: white;
-}
-
-#search {
+/* Search Bar */
+input#search {
   width: 100%;
   margin: 0.5rem 0;
   border-radius: 0.2rem;
@@ -62,11 +67,11 @@ p {
   font-size: 0.8rem;
 }
 
-#search::placeholder {
+input#search::placeholder {
   color: #666;
 }
 
-#magnify {
+i#magnify {
   position: relative;
   top: 1rem;
   left: 1.2rem;
@@ -74,6 +79,7 @@ p {
   color: #666;
 }
 
+/* Card */
 hr {
   margin: 5px 0;
 }
@@ -91,7 +97,7 @@ h3 {
   font-weight: 100;
 }
 
-.country {
+div.country {
   background-color: white;
   border-radius: 0.3rem;
   line-height: 0.8rem;
@@ -104,7 +110,7 @@ h3 {
   backface-visibility: hidden;
 }
 
-.flag {
+div.flag {
   height: 110px;
   overflow: hidden;
   display: flex;
@@ -113,22 +119,22 @@ h3 {
   background-color: white;
 }
 
-.fa-map-pin {
+i.fa-map-pin {
   color: #d46161;
   font-size: 0.5rem;
 }
 
-.fa-money-bill {
+i.fa-money-bill {
   color: #8eb897;
   font-size: 0.5rem;
 }
 
-.fa-language {
+i.fa-language {
   color: #6fa2dd;
   font-size: 0.5rem;
 }
 
-.card-plane {
+i.card-plane {
   font-size: 0.6rem;
   position: absolute;
   bottom: 5px;
@@ -143,11 +149,19 @@ span {
 button {
   font-size: 0.6rem;
   width: 100%;
-  background-color: #c3e8bd;
   border: none;
   cursor: pointer;
   position: absolute;
   bottom: 4px;
+}
+
+#button-add {
+  background-color: #c3e8bd;
+}
+
+#button-notes {
+  background-color: #6fa2dd;
+  color: white;
 }
 
 button:hover {
@@ -155,12 +169,76 @@ button:hover {
   border: 1px solid black;
 }
 
+/* Notes Page */
+div#flag-notes-page {
+  padding-top: 5px;
+}
+
+textarea#notes-input {
+  resize: none;
+  width: 100%;
+  font-size: 0.6rem;
+}
+
+h2#notes-heading {
+  font-size: 0.8rem;
+  padding-left: 10px 0;
+  padding-bottom: 10px;
+  margin: 0;
+}
+
+i#notes-edit-icon {
+  font-size: 0.8rem;
+  padding-bottom: 10px;
+  cursor: pointer;
+}
+
+i#notes-edit-icon:hover {
+  color: #8eb897;
+}
+
+.country-info-notes-page {
+  text-align: left;
+  font-size: 0.7rem;
+  padding-bottom: 0.8rem;
+}
+
+h4 {
+  font-size: 0.6rem;
+  font-weight: 100;
+  margin: 0;
+  padding-bottom: 1rem;
+}
+
+i.note-icons {
+  font-size: 0.8rem;
+  padding-right: 15px;
+}
+
+button#notes-save-button {
+  background-color: #c3e8bd;
+  position: static;
+  border: 1px solid black;
+  width: fit-content;
+  padding: 10px 30px;
+}
+
+button#notes-save-button:hover {
+  background-color: white;
+}
+
+p#notes-saved {
+  font-size: 0.6rem;
+  text-align: left;
+  margin: 0;
+}
+
 /* Card Flip */
-.country-wrapper {
+div.country-wrapper {
   perspective: 600px;
 }
 
-.card {
+div.card {
   cursor: pointer;
   width: 100%;
   height: 100%;
@@ -169,7 +247,7 @@ button:hover {
   transform-style: preserve-3d;
 }
 
-.country-back {
+div.country-back {
   transform: rotateY(180deg);
 }
 

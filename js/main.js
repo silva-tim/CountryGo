@@ -1,3 +1,4 @@
+let noteAlreadyRendered = false;
 let countries = null;
 let changeSearch = false;
 const $countryDeck = document.querySelector('#country-deck');
@@ -5,8 +6,22 @@ const $searchBar = document.querySelector('#search-bar');
 const $search = document.querySelector('#search');
 const $switchToBucket = document.querySelector('#plane');
 const $switchToHome = document.querySelector('#home');
+const $subheadDiv = document.querySelector('#subhead-div');
 const $subhead = document.querySelector('#subhead');
 const $noEntries = document.querySelector('#no-entries');
+const $notesPageContainer = document.querySelector('#notes-page-container');
+const $notesHeading = document.querySelector('#notes-heading');
+const $notesNotesSaved = document.querySelector('#notes-saved');
+const $notesFlagImage = document.querySelector('#notes-flag-image');
+const $notesCapital = document.querySelector('#notes-capital');
+const $notesRegion = document.querySelector('#notes-region');
+const $notesPopulation = document.querySelector('#notes-population');
+const $notesSubregion = document.querySelector('#notes-subregion');
+const $notesCurrency = document.querySelector('#notes-currency');
+const $notesLanguage = document.querySelector('#notes-language');
+const $notesEditIcon = document.querySelector('#notes-edit-icon');
+const $notesInput = document.querySelector('#notes-input');
+const $notesForm = document.querySelector('#notes-form');
 
 // Sends XHR and retrieves all independent countries
 function getAllCountries() {
@@ -30,7 +45,7 @@ function renderCountry(country) {
   $card.setAttribute('data-cca3', country.cca3);
   $wrapper.append($card);
 
-  // Front Side
+  /* Front Side Rendering of Card */
   const $countryF = document.createElement('div');
   $countryF.classList.add('country', 'country-front');
   $card.append($countryF);
@@ -68,7 +83,7 @@ function renderCountry(country) {
   $airplaneF.classList.add('fa-solid', 'fa-paper-plane', 'hidden', 'card-plane');
   $countryF.append($airplaneF);
 
-  // Back Side
+  /* Back Side Rendering of Card */
   const $countryB = document.createElement('div');
   $countryB.classList.add('country', 'country-back');
   $card.append($countryB);
@@ -119,7 +134,6 @@ function renderCountry(country) {
   const arrayLanguage = Object.values(country.languages);
   const $language = document.createElement('h3');
   $language.textContent = ' ';
-  // Shortens number of languages to 4 or less
   for (let i = 0; i < arrayLanguage.length && i < 4; i++) {
     $language.textContent += Object.values(arrayLanguage)[i];
     if (i !== 3 && i !== arrayLanguage.length - 1) {
@@ -137,17 +151,22 @@ function renderCountry(country) {
 
   const $buttonRow = document.createElement('div');
   $buttonRow.classList.add('row', 'justifycenter');
-  const $button = document.createElement('button');
-  $button.textContent = 'Add to Bucket List';
+  const $buttonAdd = document.createElement('button');
+  $buttonAdd.setAttribute('id', 'button-add');
+  $buttonAdd.textContent = 'Add to Bucket List';
   $countryB.append($buttonRow);
-  $buttonRow.append($button);
+  $buttonRow.append($buttonAdd);
+  const $buttonNotes = document.createElement('button');
+  $buttonNotes.setAttribute('id', 'button-notes');
+  $buttonNotes.textContent = 'Notes';
+  $buttonNotes.classList.add('hidden');
+  $buttonRow.append($buttonNotes);
 
-  // Hides button and adds plane icon if country is already saved
-  for (let i = 0; i < data.savedCountries.length; i++) {
-    if (data.savedCountries[i].cca3 === country.cca3) {
-      $button.classList.add('hidden');
-      $airplaneF.classList.remove('hidden');
-    }
+  // Switches button and adds plane icon if country is already saved
+  if (findSavedCountry(country.cca3) !== null) {
+    $buttonAdd.classList.add('hidden');
+    $buttonNotes.classList.remove('hidden');
+    $airplaneF.classList.remove('hidden');
   }
 
   return $wrapper;
@@ -169,19 +188,55 @@ function unrenderAll() {
   });
 }
 
+function renderNote(savedCountry) {
+  if (noteAlreadyRendered === true) {
+    unrenderNote();
+  }
+
+  if (!savedCountry.notes) {
+    savedCountry.notes = 'No notes saved yet!';
+  }
+  $notesNotesSaved.textContent = savedCountry.notes;
+  $notesHeading.textContent = savedCountry.name.common;
+  $notesFlagImage.src = savedCountry.flags.png;
+  $notesFlagImage.alt = savedCountry.flags.alt;
+  $notesCapital.append(savedCountry.capital[0]);
+  $notesRegion.append(savedCountry.region);
+  $notesPopulation.append(savedCountry.population.toLocaleString());
+  $notesSubregion.append(savedCountry.subregion);
+  $notesCurrency.append(Object.keys(savedCountry.currencies));
+  $notesLanguage.append(Object.values(savedCountry.languages));
+  noteAlreadyRendered = true;
+  data.currentCountry = savedCountry;
+
+  viewSwap('note');
+}
+
+function unrenderNote() {
+  $notesCapital.lastChild.remove();
+  $notesRegion.lastChild.remove();
+  $notesPopulation.lastChild.remove();
+  $notesSubregion.lastChild.remove();
+  $notesCurrency.lastChild.remove();
+  $notesLanguage.lastChild.remove();
+}
+
+// Function that handles all view swapping
 function viewSwap(page) {
   unrenderAll();
+  cancelEdit();
+  $noEntries.classList.add('hidden');
   $search.value = '';
   changeSearch = false;
   $switchToBucket.classList.remove('white');
   $switchToHome.classList.remove('white');
-  $subhead.classList.add('hidden');
-  $noEntries.classList.add('hidden');
+  $notesPageContainer.classList.add('hidden');
   data.page = page;
 
   if (page === 'bucketList') {
+    $subhead.textContent = 'Bucket List';
     changeSearch = true;
-    $subhead.classList.remove('hidden');
+    $subheadDiv.classList.remove('hidden');
     $switchToBucket.classList.add('white');
 
     if (data.savedCountries.length < 1) {
@@ -195,7 +250,16 @@ function viewSwap(page) {
     }
   }
 
+  if (page === 'note') {
+    $subhead.textContent = 'Travel Notes';
+    $subheadDiv.classList.remove('hidden');
+    $searchBar.classList.add('hidden');
+    $notesPageContainer.classList.remove('hidden');
+    data.page = 'bucketList';
+  }
+
   if (page === 'home') {
+    $subheadDiv.classList.add('hidden');
     $switchToHome.classList.add('white');
     $searchBar.classList.remove('hidden');
     sortAlphabetical(countries);
@@ -236,19 +300,66 @@ function handleSearch(event) {
 
 // Function that handles clicking events on cards
 function handleDeck(event) {
-  const $countryClicked = event.target.closest('.card');
-  if ($countryClicked === null) {
+  const $countryClickedElement = event.target.closest('.card');
+  if ($countryClickedElement === null) {
     return;
   }
-  const $frontPlanePin = $countryClicked.querySelector('.country').querySelector('i');
 
-  if (event.target.matches('button')) {
-    event.target.classList.add('hidden');
+  const countryClickedObject = getCountryFromCCA3($countryClickedElement.getAttribute('data-cca3'));
+  if (event.target.getAttribute('id') === 'button-add') {
+    const $frontPlanePin = $countryClickedElement.querySelector('.country-front').querySelector('i');
+    const $backButtonAdd = $countryClickedElement.querySelector('#button-add');
+    const $backButtonNotes = $countryClickedElement.querySelector('#button-notes');
+
+    $backButtonAdd.classList.add('hidden');
+    $backButtonNotes.classList.remove('hidden');
     $frontPlanePin.classList.remove('hidden');
-    data.savedCountries.push(getCountryFromCCA3($countryClicked.getAttribute('data-cca3')));
+
+    data.savedCountries.push(countryClickedObject);
+  } else if (event.target.getAttribute('id') === 'button-notes') {
+    renderNote(findSavedCountry(countryClickedObject.cca3));
   } else {
-    $countryClicked.classList.toggle('is-flipped');
+    $countryClickedElement.classList.toggle('is-flipped');
   }
+}
+
+function handleEdit(event) {
+  if ($notesNotesSaved.textContent === 'No notes saved yet!') {
+    $notesNotesSaved.textContent = '';
+  }
+
+  $notesInput.textContent = $notesNotesSaved.textContent;
+  $notesForm.classList.remove('hidden');
+  $notesNotesSaved.classList.add('hidden');
+  $notesEditIcon.classList.add('hidden');
+}
+
+function handleSave(event) {
+  event.preventDefault();
+
+  if ($notesInput.value === '') {
+    $notesNotesSaved.textContent = 'No notes saved yet!';
+  } else {
+    $notesNotesSaved.textContent = $notesInput.value;
+  }
+  $notesForm.classList.add('hidden');
+  $notesNotesSaved.classList.remove('hidden');
+  $notesEditIcon.classList.remove('hidden');
+  data.currentCountry.notes = $notesNotesSaved.textContent;
+  for (let i = 0; i < data.savedCountries.length; i++) {
+    if (data.savedCountries[i].cca3 === data.currentCountry.cca3) {
+      data.savedCountries[i] = data.currentCountry;
+    }
+  }
+
+  $notesForm.reset();
+}
+
+function cancelEdit() {
+  $notesForm.reset();
+  $notesForm.classList.add('hidden');
+  $notesNotesSaved.classList.remove('hidden');
+  $notesEditIcon.classList.remove('hidden');
 }
 
 // Formats population for front side render
@@ -272,9 +383,20 @@ function getCountryFromCCA3(cca3) {
   }
 }
 
+function findSavedCountry(cca3) {
+  for (let i = 0; i < data.savedCountries.length; i++) {
+    if (data.savedCountries[i].cca3 === cca3) {
+      return data.savedCountries[i];
+    }
+  }
+  return null;
+}
+
 // Event listeners
 $countryDeck.addEventListener('click', handleDeck);
 $searchBar.addEventListener('input', handleSearch);
 $switchToBucket.addEventListener('click', function () { viewSwap('bucketList'); });
 $switchToHome.addEventListener('click', function () { viewSwap('home'); });
+$notesEditIcon.addEventListener('click', handleEdit);
+$notesForm.addEventListener('submit', handleSave);
 document.addEventListener('DOMContentLoaded', getAllCountries);
