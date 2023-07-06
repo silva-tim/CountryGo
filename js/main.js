@@ -388,15 +388,6 @@ function getCountryFromCCA3(cca3) {
   }
 }
 
-function findSavedCountry(cca3) {
-  for (let i = 0; i < data.savedCountries.length; i++) {
-    if (data.savedCountries[i].cca3 === cca3) {
-      return data.savedCountries[i];
-    }
-  }
-  return null;
-}
-
 // Event listeners
 $countryDeck.addEventListener('click', handleDeck);
 $searchBar.addEventListener('input', handleSearch);
@@ -405,6 +396,15 @@ $switchToHome.addEventListener('click', function () { viewSwap('home'); });
 $notesEditIcon.addEventListener('click', handleEdit);
 $notesForm.addEventListener('click', handleSave);
 document.addEventListener('DOMContentLoaded', getAllCountries);
+
+function findSavedCountry(cca3) {
+  for (let i = 0; i < data.savedCountries.length; i++) {
+    if (data.savedCountries[i].cca3 === cca3) {
+      return data.savedCountries[i];
+    }
+  }
+  return null;
+}
 
 function deleteCountry(country) {
   for (let i = 0; i < data.savedCountries.length; i++) {
