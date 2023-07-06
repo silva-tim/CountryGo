@@ -1,5 +1,5 @@
-let noteAlreadyRendered = false;
 let countries = null;
+let noteAlreadyRendered = false;
 let changeSearch = false;
 const $countryDeck = document.querySelector('#country-deck');
 const $searchBar = document.querySelector('#search-bar');
@@ -33,6 +33,13 @@ function getAllCountries() {
     viewSwap(data.page);
   });
   xhr.send();
+}
+
+// Renders all countries from an array
+function renderArray(countryArray) {
+  for (let i = 0; i < countryArray.length; i++) {
+    $countryDeck.append(renderCountry(countryArray[i]));
+  }
 }
 
 // Function to render individual country
@@ -172,10 +179,29 @@ function renderCountry(country) {
   return $wrapper;
 }
 
-// Renders all countries from an array
-function renderArray(countryArray) {
-  for (let i = 0; i < countryArray.length; i++) {
-    $countryDeck.append(renderCountry(countryArray[i]));
+// Function that handles clicking events on cards
+function handleDeck(event) {
+  const $countryClickedElement = event.target.closest('.card');
+  if ($countryClickedElement === null) {
+    return;
+  }
+
+  const countryClickedObject = getCountryFromCCA3($countryClickedElement.getAttribute('data-cca3'));
+
+  if (event.target.getAttribute('id') === 'button-add') {
+    const $frontPlanePin = $countryClickedElement.querySelector('.country-front').querySelector('i');
+    const $backButtonAdd = $countryClickedElement.querySelector('#button-add');
+    const $backButtonNotes = $countryClickedElement.querySelector('#button-notes');
+
+    $backButtonAdd.classList.add('hidden');
+    $backButtonNotes.classList.remove('hidden');
+    $frontPlanePin.classList.remove('hidden');
+
+    data.savedCountries.push(countryClickedObject);
+  } else if (event.target.getAttribute('id') === 'button-notes') {
+    renderNote(findSavedCountry(countryClickedObject.cca3));
+  } else {
+    $countryClickedElement.classList.toggle('is-flipped');
   }
 }
 
@@ -298,31 +324,6 @@ function handleSearch(event) {
   }
 }
 
-// Function that handles clicking events on cards
-function handleDeck(event) {
-  const $countryClickedElement = event.target.closest('.card');
-  if ($countryClickedElement === null) {
-    return;
-  }
-
-  const countryClickedObject = getCountryFromCCA3($countryClickedElement.getAttribute('data-cca3'));
-  if (event.target.getAttribute('id') === 'button-add') {
-    const $frontPlanePin = $countryClickedElement.querySelector('.country-front').querySelector('i');
-    const $backButtonAdd = $countryClickedElement.querySelector('#button-add');
-    const $backButtonNotes = $countryClickedElement.querySelector('#button-notes');
-
-    $backButtonAdd.classList.add('hidden');
-    $backButtonNotes.classList.remove('hidden');
-    $frontPlanePin.classList.remove('hidden');
-
-    data.savedCountries.push(countryClickedObject);
-  } else if (event.target.getAttribute('id') === 'button-notes') {
-    renderNote(findSavedCountry(countryClickedObject.cca3));
-  } else {
-    $countryClickedElement.classList.toggle('is-flipped');
-  }
-}
-
 function handleEdit(event) {
   if ($notesNotesSaved.textContent === 'No notes saved yet!') {
     $notesNotesSaved.textContent = '';
@@ -337,18 +338,22 @@ function handleEdit(event) {
 function handleSave(event) {
   event.preventDefault();
 
-  if ($notesInput.value === '') {
-    $notesNotesSaved.textContent = 'No notes saved yet!';
-  } else {
-    $notesNotesSaved.textContent = $notesInput.value;
-  }
-  $notesForm.classList.add('hidden');
-  $notesNotesSaved.classList.remove('hidden');
-  $notesEditIcon.classList.remove('hidden');
-  data.currentCountry.notes = $notesNotesSaved.textContent;
-  for (let i = 0; i < data.savedCountries.length; i++) {
-    if (data.savedCountries[i].cca3 === data.currentCountry.cca3) {
-      data.savedCountries[i] = data.currentCountry;
+  if (event.target.getAttribute('id') === 'notes-delete-button') {
+    deleteCountry(data.currentCountry);
+  } else if (event.target.getAttribute('id') === 'notes-save-button') {
+    if ($notesInput.value === '') {
+      $notesNotesSaved.textContent = 'No notes saved yet!';
+    } else {
+      $notesNotesSaved.textContent = $notesInput.value;
+    }
+    $notesForm.classList.add('hidden');
+    $notesNotesSaved.classList.remove('hidden');
+    $notesEditIcon.classList.remove('hidden');
+    data.currentCountry.notes = $notesNotesSaved.textContent;
+    for (let i = 0; i < data.savedCountries.length; i++) {
+      if (data.savedCountries[i].cca3 === data.currentCountry.cca3) {
+        data.savedCountries[i] = data.currentCountry;
+      }
     }
   }
 
@@ -392,11 +397,20 @@ function findSavedCountry(cca3) {
   return null;
 }
 
+function deleteCountry(country) {
+  for (let i = 0; i < data.savedCountries.length; i++) {
+    if (data.savedCountries[i] === country) {
+      data.savedCountries.splice(i, 1);
+      viewSwap('bucketList');
+    }
+  }
+}
+
 // Event listeners
 $countryDeck.addEventListener('click', handleDeck);
 $searchBar.addEventListener('input', handleSearch);
 $switchToBucket.addEventListener('click', function () { viewSwap('bucketList'); });
 $switchToHome.addEventListener('click', function () { viewSwap('home'); });
 $notesEditIcon.addEventListener('click', handleEdit);
-$notesForm.addEventListener('submit', handleSave);
 document.addEventListener('DOMContentLoaded', getAllCountries);
+$notesForm.addEventListener('click', handleSave);

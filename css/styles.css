@@ -223,6 +223,15 @@ button#notes-save-button {
   padding: 10px 30px;
 }
 
+button#notes-delete-button {
+  background-color: #d46161;
+  position: static;
+  border: 1px solid black;
+  width: fit-content;
+  padding: 10px 30px;
+  margin-right: 10px;
+}
+
 button#notes-save-button:hover {
   background-color: white;
 }
