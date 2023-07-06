@@ -397,15 +397,6 @@ function findSavedCountry(cca3) {
   return null;
 }
 
-// Event listeners
-$countryDeck.addEventListener('click', handleDeck);
-$searchBar.addEventListener('input', handleSearch);
-$switchToBucket.addEventListener('click', function () { viewSwap('bucketList'); });
-$switchToHome.addEventListener('click', function () { viewSwap('home'); });
-$notesEditIcon.addEventListener('click', handleEdit);
-$notesForm.addEventListener('click', handleSave);
-document.addEventListener('DOMContentLoaded', getAllCountries);
-
 function deleteCountry(country) {
   for (let i = 0; i < data.savedCountries.length; i++) {
     if (data.savedCountries[i] === country) {
@@ -414,3 +405,12 @@ function deleteCountry(country) {
     }
   }
 }
+
+// Event listeners
+$countryDeck.addEventListener('click', handleDeck);
+$searchBar.addEventListener('input', handleSearch);
+$switchToBucket.addEventListener('click', function () { viewSwap('bucketList'); });
+$switchToHome.addEventListener('click', function () { viewSwap('home'); });
+$notesEditIcon.addEventListener('click', handleEdit);
+$notesForm.addEventListener('click', handleSave);
+document.addEventListener('DOMContentLoaded', getAllCountries);
