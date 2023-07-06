@@ -397,15 +397,6 @@ function findSavedCountry(cca3) {
   return null;
 }
 
-function deleteCountry(country) {
-  for (let i = 0; i < data.savedCountries.length; i++) {
-    if (data.savedCountries[i] === country) {
-      data.savedCountries.splice(i, 1);
-      viewSwap('bucketList');
-    }
-  }
-}
-
 // Event listeners
 $countryDeck.addEventListener('click', handleDeck);
 $searchBar.addEventListener('input', handleSearch);
@@ -414,3 +405,12 @@ $switchToHome.addEventListener('click', function () { viewSwap('home'); });
 $notesEditIcon.addEventListener('click', handleEdit);
 $notesForm.addEventListener('click', handleSave);
 document.addEventListener('DOMContentLoaded', getAllCountries);
+
+function deleteCountry(country) {
+  for (let i = 0; i < data.savedCountries.length; i++) {
+    if (data.savedCountries[i] === country) {
+      data.savedCountries.splice(i, 1);
+      viewSwap('bucketList');
+    }
+  }
+}
